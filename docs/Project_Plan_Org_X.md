@@ -1,9 +1,10 @@
 # Organization X — Integrated Digital Management System
 ## Team plan & 1-month roadmap
 
-**Owner (lead/mentor):** Lado
+**Owner (lead/mentor):** Vladimer
 **Team:** 5 students (3 dev-leaning, 2 product/analytics/QA)
-**Today:** 2026-05-02
+**Date:** 2026-05-23
+**Status** very draft, to be updated
 **Hard deadlines from brief:** Frontend course 2026-07-09 · Agile course 2026-07-18
 **Working assumption:** ship a usable MVP by end of May (4 weeks), then 6 weeks of polish, real data, demo prep, and reports until the deadlines.
 
@@ -95,37 +96,37 @@ Six people: four coders (you + three students), one PO/BA, one QA. Module owners
 - One **cross-domain pairing** per sprint: pair two devs for 2–3 hours on a single end-to-end vertical slice (model → view → template → CSS). Both learn faster, you ship a feature.
 - **Don't** rotate full module ownership every sprint. That guarantees nobody owns anything, schema drift goes unmanaged, merge conflicts get ugly. Scrum *role* rotation (PO/Scrum Master) is required by the brief; module ownership is not.
 
-### Mr L (Lado) — Tech lead, architect, Scrum Master, WhatsApp module owner
+### Vladimer — Tech lead, architect, Scrum Master, WhatsApp module owner
 Owns: system architecture, database schema design, Jira & Confluence administration, code review on every PR, design review on every UI PR, unblocking, the WhatsApp analytics module (chat parsing, VADER sentiment, charts, dashboard data), and visual design / wireframes for the whole product.
 **Load warning:** this is four hats — architect, SM, lead reviewer, and feature dev. If WhatsApp slips or you find yourself blocking the team during middle sprints, drop WhatsApp first to a "demo-quality" subset (activity charts + sentiment only — see Section 8).
 **SM rotation:** ceremonial Scrum Master duties (running standup, writing retro notes) rotate each sprint to satisfy the agile-course rubric — see the rotation note at the end of this section. You retain the Jira admin and process ownership.
 
-### Mr H — Developer (auth + member portal + data migration + deployment)
+### Harsh — Developer (auth + member portal + data migration + deployment)
 Owns: Django project skeleton (week 0, with Lado), `django.contrib.auth` wiring, registration/login/logout, Member model and roles, member profile views, `MemberAdmin` configuration in Django Admin, the 4,000-row data migration script (as a Django management command), and **Render deployment** (account, build/start commands, env vars, Postgres provisioning, `backup_db.py`). The "spine" the other modules hang off of.
 **Why these together:** auth, member data, and migration all touch the same models and tables. One person owning that surface keeps the schema coherent.
 **Stretch:** picks up one small frontend ticket each sprint paired with Mr T.
 
-### Mrs D — Developer (voting + documents)
+### Dana — Developer (voting + documents)
 Owns: `voting` Django app (Ballot/BallotOption/Vote models with the unique-together constraint, ballot-creation in Django Admin, voter UI, results page, tally view) and `documents` Django app (Document model with `FileField` and tags, Postgres full-text search via `SearchVector`, list/detail/upload views, permission decorator).
 **Why these together:** both modules have similar permission patterns (admin creates, members consume) and both need search/listing UIs that share template structure.
 **Stretch:** picks up one small frontend ticket each sprint.
 
-### Mr T — Developer (shared UI lead + meetings + finance)
+### Thinley — Developer (shared UI lead + meetings + finance)
 Mr T has **two co-equal responsibilities**, and the shared UI work is *not* secondary:
 
-**Shared UI lead (cross-cutting):** base template, navbar, footer, Bootstrap theme and CSS variables, the home page, the analytics dashboard layout, the 404/500 error pages, the empty-state designs, and **design-review on every UI PR from Mr H, Mrs D, and Lado**. Without this single owner, the four modules look like four different products.
+**Shared UI lead (cross-cutting):** base template, navbar, footer, Bootstrap theme and CSS variables, the home page, the analytics dashboard layout, the 404/500 error pages, the empty-state designs, and **design-review on every UI PR from devs**. Without this single owner, the four modules look like four different products.
 
 **Feature modules:** `meetings` Django app (Meeting model with Zoom-link field and minutes textarea, list view, ICS download), `finance` Django app (Income/Expense models with category, summary view, one Chart.js bar chart). Both registered in Django Admin so most CRUD is free.
 
 **Why this combination:** meetings and finance are the two lightest backend modules in the system, which deliberately leaves capacity for shared UI — a job that's bigger than it looks once four different devs start writing templates.
 **Stretch:** picks up one small backend ticket each sprint (e.g. a model field, a small view) outside meetings/finance to grow into other parts of the stack.
 
-### Mr K — Product Manager / Business Analyst (+ test design)
+### Karim — Product Manager / Business Analyst (+ test design)
 Owns the **upstream half** of quality: requirements gathering and clarification, user stories with acceptance criteria, backlog grooming (with Lado), stakeholder coordination, demo script, lead author of the project report, and the **ceremonial Product Owner role** for sprint reviews.
 
-**Test design (shared with Mr A):** writes the test *scenarios* (Given/When/Then-style narratives derived from his own acceptance criteria) for each module before that module enters QA. Mr A turns those scenarios into executable test cases and runs them. This split makes sense because Mr K already holds the requirements model in his head — extracting test scenarios from his own AC is a 30-minute task; rebuilding them from scratch is a half-day for someone who didn't write the AC.
+**Test design (shared with Asadbek):** writes the test *scenarios* (Given/When/Then-style narratives derived from his own acceptance criteria) for each module before that module enters QA. Mr A turns those scenarios into executable test cases and runs them. This split makes sense because Mr K already holds the requirements model in his head — extracting test scenarios from his own AC is a 30-minute task; rebuilding them from scratch is a half-day for someone who didn't write the AC.
 
-**Bug triage (shared with Mr A):** runs a 30-minute bug-grooming session each sprint — Mr A presents reproduced bugs, Mr K decides priority and what's fix-now vs defer-to-buffer based on requirements impact.
+**Bug triage (shared with Asadbek:** runs a 30-minute bug-grooming session each sprint — Mr A presents reproduced bugs, Mr K decides priority and what's fix-now vs defer-to-buffer based on requirements impact.
 
 **Report contribution:** writes Introduction, Requirements, System Architecture (from Lado's week-0 doc), Implementation Summary, and Future Work chapters.
 

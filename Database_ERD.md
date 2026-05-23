@@ -1,6 +1,6 @@
 # Organization X System — Database ERD
 
-**Owner:** Lado + Mr H · **Status:** Draft v0.1 (Week 0) · **Last updated:** 2026-05-02
+**Owner:** Lado + Mr H · **Status:** Draft v0.1 (Week 0) · **Last updated:** 2026-05-23
 
 This document is the source of truth for the database schema. The Django models in code must match what's described here; if the code disagrees with this doc, fix one or the other and ship the change in the same PR. Every dev should read this before defining any model field.
 

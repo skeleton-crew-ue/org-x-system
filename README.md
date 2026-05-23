@@ -59,11 +59,11 @@ If anything in the code disagrees with these docs, fix one of them in the same P
 | Person | Role | Primary modules |
 |---|---|---|
 | Lado | Tech lead, Scrum Master, architect | WhatsApp analytics, DB design |
-| Mr H | Developer | `members` (auth, profile, data migration), Render deployment |
-| Mrs D | Developer | `documents`, `voting` |
-| Mr T | Developer | `meetings`, `finance`, **shared UI** |
-| Mr K | Product Manager / BA | Backlog, AC, test scenarios, report |
-| Mr A | QA Engineer | Test cases, bug board, security pass |
+| Harsh | Developer | `members` (auth, profile, data migration), Render deployment |
+| Dana | Developer | `documents`, `voting` |
+| Thinley | Developer | `meetings`, `finance`, **shared UI** |
+| Karim | Product Manager / BA | Backlog, AC, test scenarios, report |
+| Asadbek | QA Engineer | Test cases, bug board, security pass |
 
 Full ownership and stretch-ticket model: [`Project_Plan_Org_X.md`](docs/Project_Plan_Org_X.md) § 4.
 
