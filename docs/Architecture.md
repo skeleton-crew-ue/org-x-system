@@ -1,10 +1,10 @@
 # Organization X System — Architecture
 
-**Owner:** Lado · **Status:** Draft v0.1 (Week 0) · **Last updated:** 2026-05-23
+**Owner:** Vladimer · **Status:** Draft v0.1 (Week 0) · **Last updated:** 2026-05-23
 
 This document is the team's shared mental model of how the system fits together. Every dev should be able to read this in 20 minutes and know which app they're touching, which models they own, and how the pieces connect. If something here disagrees with the code, fix this doc — it's authoritative.
 
-> Companion documents: [Project_Plan_Org_X.md](Project_Plan_Org_X.md) (timeline, team, scope), `Database_ERD.md` (to be drafted in Week 0 by Lado + Mr H).
+> Companion documents: [Project_Plan_Org_X.md](Project_Plan_Org_X.md) (timeline, team, scope), [Database_ERD.md](Database_ERD.md) (schema, fields, constraints).
 
 ---
 

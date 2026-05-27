@@ -2,7 +2,7 @@
 
 A Django-based web application that centralizes Organization X's member management, document storage, electronic voting, meeting coordination, financial records, and WhatsApp analytics.
 
-**Status:** in development (Spring 2026 student project)
+**Status:** in development (Spring 2026 student project) · **Deadlines:** Frontend course 2026-07-09 · Agile course 2026-07-18
 
 ---
 
@@ -45,9 +45,9 @@ The four governance docs every dev should read in their first week:
 
 | Doc | What's in it |
 |---|---|
-| [`Project_Plan_Org_X.md`](Project_Plan_Org_X.md) | Team split, sprint plan, scope, deadlines |
-| [`Architecture.md`](Architecture.md) | Django apps, data model, key flows, tech choices |
-| [`Database_ERD.md`](Database_ERD.md) | Schema, fields, constraints, indexes |
+| [`Project_Plan_Org_X.md`](docs/Project_Plan_Org_X.md) | Team split, sprint plan, scope, deadlines |
+| [`Architecture.md`](docs/Architecture.md) | Django apps, data model, key flows, tech choices |
+| [`Database_ERD.md`](docs/Database_ERD.md) | Schema, fields, constraints, indexes |
 | [`runbook.md`](runbook.md) | Local dev setup, daily workflow, troubleshooting |
 
 If anything in the code disagrees with these docs, fix one of them in the same PR.
@@ -58,30 +58,34 @@ If anything in the code disagrees with these docs, fix one of them in the same P
 
 | Person | Role | Primary modules |
 |---|---|---|
-| Mr G | Tech lead, Scrum Master, architect | WhatsApp analytics, DB design |
-| Mr H | Developer | `members` (auth, profile, data migration), Render deployment |
-| Mrs D | Developer | `documents`, `voting` |
-| Mr T | Developer | `meetings`, `finance`, **shared UI** |
-| Mr K | Product Manager / BA | Backlog, AC, test scenarios, report |
-| Mr A | QA Engineer | Test cases, bug board, security pass |
+| Lado | Tech lead, Scrum Master, architect | WhatsApp analytics, DB design |
+| Harsh | Developer | `members` (auth, profile, data migration), Render deployment |
+| Dana | Developer | `documents`, `voting` |
+| Thinley | Developer | `meetings`, `finance`, **shared UI** |
+| Karim | Product Manager / BA | Backlog, AC, test scenarios, report |
+| Asadbek | QA Engineer | Test cases, bug board, security pass |
 
-Full ownership and stretch-ticket model: [`Project_Plan_Org_X.md`](Project_Plan_Org_X.md) § 4.
+Full ownership and stretch-ticket model: [`Project_Plan_Org_X.md`](docs/Project_Plan_Org_X.md) § 4.
 
 ---
 
 ## Contributing
 
-1. Create a feature branch: `feature/<your-name>/<short-description>` (e.g. `feature/mr-h/auth-login`).
-2. Make your changes. Commit often, push when you're at a checkpoint.
-3. Run `python manage.py check && python manage.py test <your_app>` before pushing.
-4. Open a PR against `main`. Fill in the PR template.
-5. Request review from the module owner (see table above).
-6. After approval, squash-merge. Branch auto-deletes.
+Full workflow, conventions, and review process: **[`CONTRIBUTING.md`](CONTRIBUTING.md)**. Read it before your first PR.
 
-PR rules:
-- Keep PRs ≤ 300 lines where possible.
-- Every model change ships with its migration in the same PR.
-- No commits directly to `main`. Branch protection enforces this.
+The essentials:
+- Nothing goes straight to `main` — every change is a feature branch + a pull request. Branch protection enforces this.
+- Branch naming: `feature/<your-name>/<short-description>`.
+- Keep PRs ≤ 300 lines; every model change ships with its migration in the same PR.
+- Request review from the module owner (see team table above), squash-merge after approval.
+
+```bash
+git checkout main && git pull
+git checkout -b feature/your-name/short-description
+# ...work, commit...
+git push -u origin feature/your-name/short-description
+# open PR, fill in template, get 1 approval, squash-merge
+```
 
 ---
 
