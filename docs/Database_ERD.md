@@ -1,6 +1,6 @@
 # Organization X System — Database ERD
 
-**Owner:** Lado + Mr H · **Status:** Draft v0.1 (Week 0) · **Last updated:** 2026-05-23
+**Owner:** Vladimer + Harsh · **Status:** Draft v0.1 · **Last updated:** 2026-05-27
 
 This document is the source of truth for the database schema. The Django models in code must match what's described here; if the code disagrees with this doc, fix one or the other and ship the change in the same PR. Every dev should read this before defining any model field.
 
@@ -176,8 +176,7 @@ Custom user model extending `django.contrib.auth.models.AbstractUser`. Declared 
 
 **Indexes:** `username` (unique, default), `email` (unique), `member_id` (unique). Add a non-unique index on `role` if filtering by it becomes common.
 
-**Migration note:** Mr H creates the custom user model in the very first migration — *before* `makemigrations` is ever run with the default user. If you've already migrated with `auth.User`, you must reset migrations (acceptable in week 0, painful later).
-
+**Migration note:** Custom user model is in the very first migration — *before* `makemigrations` is ever run with the default user. If you've already migrated with `auth.User`, you must reset migrations
 ---
 
 ### 2.2 `documents` app
@@ -389,7 +388,7 @@ The `results` JSONField is intentionally schemaless so analytics can iterate wit
 }
 ```
 
-Lado writes the parser/analytics so this shape lives in `whatsapp/analytics.py` as the canonical contract. The dashboard view reads from this; if the shape changes, the dashboard breaks visibly and gets fixed in the same PR.
+Vladimer writes the parser/analytics so this shape lives in `whatsapp/analytics.py` as the canonical contract. The dashboard view reads from this; if the shape changes, the dashboard breaks visibly and gets fixed in the same PR.
 
 ---
 
@@ -425,14 +424,14 @@ If you find yourself reaching for `on_delete=models.CASCADE` on a `User` FK, sto
 ## 6. Migrations and seed data
 
 **Migrations.**
-- Mr H owns the migration story. Every model change ships as a Django migration committed to the repo.
+- Harsh owns the migration story. Every model change ships as a Django migration committed to the repo.
 - `python manage.py makemigrations` locally → review the generated file → commit alongside the model change.
 - Never edit a migration that's already been applied to `main` / production. If you need to fix something, write a new migration.
 - Two custom migrations are required up front:
   1. The custom `User` model (week 0, before any other migration).
   2. The GIN index on `documents_document.search_vector` (sprint 2, when documents lands).
 
-**Seed data.** Mr K's `seed_data.py` management command (sprint 1) re-creates a clean demo dataset every time it runs:
+**Seed data.** Karim's `seed_data.py` management command (sprint 1) re-creates a clean demo dataset every time it runs:
 
 - 5 admin users + 20 member users with realistic names/emails
 - 3 tags ("Reports", "Notices", "Minutes") and 6 documents tagged across them
@@ -442,7 +441,7 @@ If you find yourself reaching for `on_delete=models.CASCADE` on a `User` FK, sto
 - 1 ChatExport + ChatAnalysis with realistic JSON in `results`
 - 0 broadcasts (sending real emails from seed scripts is a foot-gun)
 
-The 4,000-row real migration is separate — owned by Mr H, runs once, not part of `seed_data`. They don't conflict because seed data goes in first on a clean DB, and the real migration runs only on production.
+The 4,000-row real migration is separate — owned by Harsh, runs once, not part of `seed_data`. They don't conflict because seed data goes in first on a clean DB, and the real migration runs only on production.
 
 ---
 
@@ -461,7 +460,7 @@ The 4,000-row real migration is separate — owned by Mr H, runs once, not part 
 
 ## 8. Open schema questions for week 0
 
-These need answering before sprint 1 starts. Lado + Mr H + Mr K to clear.
+These need answering before sprint 1 starts.
 
 - **`User.username`** — what string do we use? Email? `member_id`? Both work in Django; pick one and stick to it. Recommendation: email. Members already have it, it's unique-ish, and password-reset-by-email becomes possible later.
 - **Legacy `member_id` format** — the CSV may have `M0001`, `OX-1234`, or numeric IDs. Mr H needs a sample row to lock the format and write the migration regex.

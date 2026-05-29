@@ -1,6 +1,6 @@
 # Organization X System — Architecture
 
-**Owner:** Lado · **Status:** Draft v0.1 (Week 0) · **Last updated:** 2026-05-23
+**Owner:** Vladimer · **Status:** Draft v0.2 (Week 0) · **Last updated:** 2026-05-27
 
 This document is the team's shared mental model of how the system fits together. Every dev should be able to read this in 20 minutes and know which app they're touching, which models they own, and how the pieces connect. If something here disagrees with the code, fix this doc — it's authoritative.
 
@@ -57,13 +57,13 @@ Seven Django apps. Each app is a self-contained slice — its own models, views,
 
 | App | Owner | Purpose | Key models |
 |---|---|---|---|
-| `core` | Lado + Mr T | Project root, base templates, navbar, home page, shared utils, error pages | (none) |
-| `members` | Mr H | Custom User model, registration, login, profile, admin member CRUD | `User` (extends `AbstractUser`) |
-| `documents` | Mrs D | Upload, tag, search, download organizational documents | `Document`, `Tag` |
-| `voting` | Mrs D | Ballot creation, vote casting, results | `Ballot`, `BallotOption`, `Vote` |
-| `meetings` | Mr T | Schedule meetings, store Zoom link + minutes, ICS download | `Meeting` |
-| `finance` | Mr T | Income/expense entries, summary | `Transaction`, `Category` |
-| `whatsapp` | Lado | Ingest exported chats, run analytics, broadcast emails | `ChatExport`, `ChatAnalysis`, `Broadcast` |
+| `core` | Vladimer + Thinley | Project root, base templates, navbar, home page, shared utils, error pages | (none) |
+| `members` | Harsh | Custom User model, registration, login, profile, admin member CRUD | `User` (extends `AbstractUser`) |
+| `documents` | Dana | Upload, tag, search, download organizational documents | `Document`, `Tag` |
+| `voting` | Dana | Ballot creation, vote casting, results | `Ballot`, `BallotOption`, `Vote` |
+| `meetings` | Thinley | Schedule meetings, store Zoom link + minutes, ICS download | `Meeting` |
+| `finance` | Thinley | Income/expense entries, summary | `Transaction`, `Category` |
+| `whatsapp` | Vladimer | Ingest exported chats, run analytics, broadcast emails | `ChatExport`, `ChatAnalysis`, `Broadcast` |
 
 The Python package layout:
 
@@ -81,12 +81,12 @@ org_x_system/
 │   ├── static/             # CSS, JS, images
 │   ├── urls.py
 │   └── views.py
-├── members/                # Mr H
-├── documents/              # Mrs D
-├── voting/                 # Mrs D
-├── meetings/               # Mr T
-├── finance/                # Mr T
-├── whatsapp/               # Lado
+├── members/                # H
+├── documents/              # D
+├── voting/                 # D
+├── meetings/               # T
+├── finance/                # T
+├── whatsapp/               # V
 ├── manage.py
 ├── requirements.txt
 ├── runbook.md              # local-dev steps (week 0 deliverable)
@@ -442,12 +442,11 @@ These cuts are not failures of architecture — they're scope discipline. If the
 
 ---
 
-## 12. Open questions for week 0
+## 12. Open questions for now
 
 - Does the legacy member CSV use a primary key we can map to `User.member_id`, or do we generate fresh IDs?
 - Are documents uploaded as PDFs only, or also `.docx`? (Affects MIME whitelist and search-text extraction.)
 - What's the actual Gmail account the project will send broadcasts from? (Needs to be set up before sprint 3.)
-- Is there a real WhatsApp export Mr K can share, or do we synthesize a fake one for development?
-- Time zone: which one? (Affects every datetime rendered in the UI.)
+- Is there a real WhatsApp export or do we synthesize a fake one for development?
 
-These are reflected in **Project_Plan §9 — Open questions to resolve in week 0**. Lado and Mr K to clear before sprint 1 starts.
+These are reflected in **Project_Plan §9 — Open questions to resolve in week 0**. For Karim to clear before sprint 1 starts.

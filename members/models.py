@@ -4,7 +4,7 @@ This is the schema spine — every other module's `created_by` / `uploaded_by` /
 `voter` foreign key points here. Defined as a thin stub in the bootstrap so the
 custom user model exists from the very first migration.
 
-Mr H owns fleshing this out (registration, profile flows, data migration).
+Harsh owns fleshing this out (registration, profile flows, data migration).
 Field definitions follow docs/Database_ERD.md §2.1.
 """
 

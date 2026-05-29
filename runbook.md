@@ -1,6 +1,6 @@
 # Org X System — Local Development Runbook
 
-**Owner:** Mr H · **Status:** Draft v0.1 (Week 0) · **Last updated:** 2026-05-02
+**Owner:** Vladimer + Harsh · **Status:** Draft v0.2 · **Last updated:** 2026-05-27
 
 This document gets you from a clean laptop to a running local copy of the app. Follow it top to bottom — every step has a purpose. If something fails, check the **Troubleshooting** section at the end before pinging Slack.
 
@@ -19,7 +19,7 @@ You need:
 - Internet connection
 - ~3 GB free disk space
 - **VS Code** (assumed installed — if not, get it from <https://code.visualstudio.com/>)
-- Your GitHub username (Mr H will add you to the org-x-system repo)
+- Your GitHub username
 
 ---
 
@@ -106,7 +106,7 @@ git config --global pull.rebase false              # merge on pull, not rebase
 
 ## 3. (Optional) Install PostgreSQL 16
 
-**You can skip this for week 0.** The app runs on SQLite locally by default — you only need Postgres if you want to test against the same database we use in production. Plan to install it before sprint 2 (when document full-text search lands, which is Postgres-only).
+**You can skip this for initial setup but you should have it already from previous courses.** The app runs on SQLite locally by default — you only need Postgres if you want to test against the same database we use in production. Plan to install it before sprint 2 (when document full-text search lands, which is Postgres-only).
 
 ### Windows
 
@@ -159,7 +159,7 @@ Pick a folder for your code (e.g. `~/code` on Mac/Linux, `C:\code` on Windows) a
 
 ```bash
 cd ~/code                                                 # or your chosen folder
-git clone https://github.com/<org-name>/org-x-system.git
+git clone https://github.com/skeleton-crew-ue/org-x-system.git
 cd org-x-system
 ```
 
@@ -169,7 +169,7 @@ A virtualenv is an isolated Python install for this project so its libraries don
 
 ```bash
 # Create:
-python3.12 -m venv .venv          # macOS / Linux
+python3.12 -m venv .venv          #  or your latest version macOS / Linux
 py -3.12 -m venv .venv            # Windows (use this if `python` defaults to a different version)
 
 # Activate:
@@ -239,15 +239,15 @@ DATABASE_URL=sqlite:///db.sqlite3
 # Email (use Mailtrap for local dev — free fake-SMTP, never sends real emails)
 EMAIL_HOST=sandbox.smtp.mailtrap.io
 EMAIL_PORT=2525
-EMAIL_HOST_USER=ask-mr-h-in-slack
-EMAIL_HOST_PASSWORD=ask-mr-h-in-slack
+EMAIL_HOST_USER=ask-later # ask Vladimer later
+EMAIL_HOST_PASSWORD=ask-later # ask Vladimer later
 DEFAULT_FROM_EMAIL=Org X Dev <noreply@orgx.local>
 
 # Time zone
-TIME_ZONE=Asia/Tbilisi
+TIME_ZONE=Europe/Berlin
 ```
 
-> **Why Mailtrap?** When you're testing the broadcast feature, you don't want it accidentally emailing 4,000 real members. Mailtrap is a free service that catches every email your app tries to send and shows them in a web inbox you can open. Mr H sets up the team account and shares the credentials in Slack.
+> **Why Mailtrap?** When you're testing the broadcast feature, you don't want it accidentally emailing 4,000 real members. Mailtrap is a free service that catches every email your app tries to send and shows them in a web inbox you can open. Harsh will later set up the team account and shares the credentials in Teams.
 
 > **Don't commit your `.env`.** It's in `.gitignore` already, but double-check before any push. Real secrets in git history are painful to scrub.
 
@@ -276,7 +276,7 @@ When prompted:
 - **Email:** your real email
 - **Password:** anything ≥8 characters — this is local-only, security doesn't matter here
 
-### 6.3 Load seed data
+### 6.3 Load seed data  -- Skip for the initial setup, will be useful later
 
 ```bash
 python manage.py seed_data
@@ -458,7 +458,7 @@ Stop. Don't `git push --force` anything. Ping Mr H or Lado in Slack with the out
 
 1. Read the full error message — Python tracebacks are long but the relevant line is usually near the bottom.
 2. Search the exact error text on Google (or Stack Overflow). Django has been around 19 years; almost any error you hit has been hit before.
-3. If still stuck after 20 minutes, paste the error in the team Slack channel. **Include:** what you were doing, the full error, your OS, and whether your virtualenv is activated.
+3. If still stuck after 20 minutes, paste the error in the Teams channel. **Include:** what you were doing, the full error, your OS, and whether your virtualenv is activated.
 
 ---
 
