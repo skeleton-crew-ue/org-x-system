@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Home — Org X System{% endblock %}
+
+{% block content %}
+  <h1>Org X System</h1>
+  <p class="lead">The skeleton is running.</p>
+
+  {% if user.is_authenticated %}
+    <p>Logged in as <strong>{{ user }}</strong> ({{ user.role }}).</p>
+    <a class="btn btn-outline-secondary" href="/admin/">Admin</a>
+  {% else %}
+    <p>Not logged in.</p>
+    <a class="btn btn-primary" href="/admin/login/">Admin login</a>
+  {% endif %}
+
+  <hr class="my-4">
+  <p class="text-muted">
+    Module pages will appear here as the team builds them. See the
+    home-page dashboard ticket (Mr T) and module tickets.
+  </p>
+{% endblock %}
