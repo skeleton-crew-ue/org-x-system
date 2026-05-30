@@ -192,7 +192,7 @@ Conflicts happen — they're normal, not a crisis. When `git merge main` reports
 2. Open each file; find the `<<<<<<<`, `=======`, `>>>>>>>` markers.
 3. Edit to the correct combined result; delete the markers.
 4. `git add <file>` for each resolved file.
-5. `git commit` to complete the merge.
+5. `git commit -m "<Description>"` to complete the merge.
 6. `git push`.
 
 If the conflict involves a **migration file** or you don't understand the conflict: stop, don't guess. Ping Lado or the module owner in Slack with the output of `git status`. A wrongly-resolved migration conflict is much harder to fix later than to prevent now.
