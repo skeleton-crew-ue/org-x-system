@@ -59,10 +59,10 @@ Seven Django apps. Each app is a self-contained slice — its own models, views,
 |---|---|---|---|
 | `core` | Vladimer + Thinley | Project root, base templates, navbar, home page, shared utils, error pages | (none) |
 | `members` | Harsh | Custom User model, registration, login, profile, admin member CRUD | `User` (extends `AbstractUser`) |
-| `documents` | Dana | Upload, tag, search, download organizational documents | `Document`, `Tag` |
-| `voting` | Dana | Ballot creation, vote casting, results | `Ballot`, `BallotOption`, `Vote` |
-| `meetings` | Thinley | Schedule meetings, store Zoom link + minutes, ICS download | `Meeting` |
-| `finance` | Thinley | Income/expense entries, summary | `Transaction`, `Category` |
+| `documents` | Thinley | Upload, tag, search, download organizational documents | `Document`, `Tag` |
+| `voting` | Thinley | Ballot creation, vote casting, results | `Ballot`, `BallotOption`, `Vote` |
+| `meetings` | Dana | Schedule meetings, store Zoom link + minutes, ICS download | `Meeting` |
+| `finance` | Dana | Income/expense entries, summary | `Transaction`, `Category` |
 | `whatsapp` | Vladimer | Ingest exported chats, run analytics, broadcast emails | `ChatExport`, `ChatAnalysis`, `Broadcast` |
 
 The Python package layout:
@@ -75,17 +75,17 @@ org_x_system/
 │   └── wsgi.py
 ├── core/                   # base templates, home page, shared utils
 │   ├── templates/
-│   │   ├── base.html       # owned by Mr T (shared UI)
+│   │   ├── base.html       # owned by Dana
 │   │   ├── home.html
 │   │   └── 404.html, 500.html
 │   ├── static/             # CSS, JS, images
 │   ├── urls.py
 │   └── views.py
 ├── members/                # H
-├── documents/              # D
-├── voting/                 # D
-├── meetings/               # T
-├── finance/                # T
+├── documents/              # T
+├── voting/                 # T
+├── meetings/               # D
+├── finance/                # D
 ├── whatsapp/               # V
 ├── manage.py
 ├── requirements.txt
