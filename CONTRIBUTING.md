@@ -207,12 +207,12 @@ Request the **primary owner** of the module you touched as your reviewer. Full o
 
 | Area | Primary reviewer |
 |---|---|
-| `members` (auth, profile, migration), deployment | Mr H |
-| `documents`, `voting` | Mrs D |
-| `meetings`, `finance`, shared UI / `base.html` | Mr T |
-| `whatsapp`, database schema, architecture | Lado |
-| Project docs (plan, architecture, ERD) | Lado |
-| Anything cross-cutting or you're unsure | Lado |
+| `members` (auth, profile, migration), deployment | Harsh |
+| `documents`, `voting` | Thinley |
+| `meetings`, `finance`, shared UI / `base.html` | Dana |
+| `whatsapp`, database schema, architecture | Vladimer |
+| Project docs (plan, architecture, ERD) | Vladimer |
+| Anything cross-cutting or you're unsure | Vladimer |
 
 For a cross-domain stretch ticket, request *both* the module owner and your own primary owner.
 
