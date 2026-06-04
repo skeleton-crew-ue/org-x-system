@@ -106,13 +106,13 @@ Owns: Django project skeleton (week 0, with Lado), `django.contrib.auth` wiring,
 **Why these together:** auth, member data, and migration all touch the same models and tables. One person owning that surface keeps the schema coherent.
 **Stretch:** picks up one small frontend ticket each sprint paired with Mr T.
 
-### Dana — Developer (voting + documents)
+### Thinley — Developer (voting + documents)
 Owns: `voting` Django app (Ballot/BallotOption/Vote models with the unique-together constraint, ballot-creation in Django Admin, voter UI, results page, tally view) and `documents` Django app (Document model with `FileField` and tags, Postgres full-text search via `SearchVector`, list/detail/upload views, permission decorator).
 **Why these together:** both modules have similar permission patterns (admin creates, members consume) and both need search/listing UIs that share template structure.
 **Stretch:** picks up one small frontend ticket each sprint.
 
-### Thinley — Developer (shared UI lead + meetings + finance)
-Thinley has **two co-equal responsibilities**, and the shared UI work is *not* secondary:
+### Dana — Developer (shared UI lead + meetings + finance)
+Dana has **two co-equal responsibilities**, and the shared UI work is *not* secondary:
 
 **Shared UI lead (cross-cutting):** base template, navbar, footer, Bootstrap theme and CSS variables, the home page, the analytics dashboard layout, the 404/500 error pages, the empty-state designs, and **design-review on every UI PR from devs**. Without this single owner, the four modules look like four different products.
 
@@ -164,7 +164,7 @@ Sprints are one week each. Standups three times a week (Mon/Wed/Fri, 15 min). Sp
 - **Scope creep from the brief.** The brief is a wish list. Push back gently when a teammate says "but the doc says we need intelligent auto-replies" — point them at the explicit cuts in section 8.
 - **Django Admin overuse.** It's tempting to expose every model in admin and call it done. For *member-facing* features (voting, document browsing, etc.) you still need real views. Admin is for staff only.
 - **Jira hygiene.** The agile course grades this. Vladimer (as Jira owner) and Karim (as PO) should jointly hassle people daily about logging time and updating status. Set a daily reminder.
-- **Frontend consistency.** With four people writing templates, drift is inevitable. Thinley owns visual review on every UI PR; Vladimer does a sweep at end of each sprint to catch anything that slipped through.
+- **Frontend consistency.** With four people writing templates, drift is inevitable. Dana owns visual review on every UI PR; Vladimer does a sweep at end of each sprint to catch anything that slipped through.
 
 ---
 

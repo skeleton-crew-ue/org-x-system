@@ -60,8 +60,8 @@ If anything in the code disagrees with these docs, fix one of them in the same P
 |---|---|---|
 | Lado | Tech lead, Scrum Master, architect | WhatsApp analytics, DB design |
 | Harsh | Developer | `members` (auth, profile, data migration), Render deployment |
-| Dana | Developer | `documents`, `voting` |
-| Thinley | Developer | `meetings`, `finance`, **shared UI** |
+| Thinley | Developer | `documents`, `voting` |
+| Dana | Developer | `meetings`, `finance`, **shared UI** |
 | Karim | Product Manager / BA | Backlog, AC, test scenarios, report |
 | Asadbek | QA Engineer | Test cases, bug board, security pass |
 
