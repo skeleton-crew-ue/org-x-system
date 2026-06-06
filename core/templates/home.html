@@ -3,20 +3,42 @@
 {% block title %}Home — Org X System{% endblock %}
 
 {% block content %}
-  <h1>Org X System</h1>
-  <p class="lead">The skeleton is running.</p>
 
   {% if user.is_authenticated %}
-    <p>Logged in as <strong>{{ user }}</strong> ({{ user.role }}).</p>
-    <a class="btn btn-outline-secondary" href="/admin/">Admin</a>
+
+    <div class="py-3">
+      <h1 class="display-6 fw-semibold">
+        Welcome back, {{ user.get_full_name|default:user.username }}.
+      </h1>
+      <p class="lead text-muted mt-2">
+        Org X System is the member portal for your organization — a single place
+        to manage documents, votes, meetings, and finances.
+      </p>
+    </div>
+
+    {% if user.is_staff %}
+      <div class="alert alert-light border mt-2" role="alert">
+        You are logged in as an <strong>Admin</strong>.
+        Use the <a href="/admin/" class="alert-link">Admin panel</a> to manage
+        members, ballots, and other records.
+      </div>
+    {% endif %}
+
   {% else %}
-    <p>Not logged in.</p>
-    <a class="btn btn-primary" href="/admin/login/">Admin login</a>
+
+    <div class="py-5 text-center">
+      <h1 class="display-5 fw-bold mb-3">Org X System</h1>
+      <p class="lead col-md-8 mx-auto text-muted">
+        A private member portal for managing organizational documents, votes,
+        meetings, and finances — all in one place.
+      </p>
+      <div class="mt-4">
+        <a class="btn btn-primary btn-lg px-5" href="/admin/login/?next=/">
+          Login
+        </a>
+      </div>
+    </div>
+
   {% endif %}
 
-  <hr class="my-4">
-  <p class="text-muted">
-    Module pages will appear here as the team builds them. See the
-    home-page dashboard ticket (Mr T) and module tickets.
-  </p>
 {% endblock %}
