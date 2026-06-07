@@ -99,13 +99,16 @@
               </a>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                 <li>
-                  <a class="dropdown-item" href="/admin/">
-                    Admin panel
-                  </a>
+                  <a class="dropdown-item" href="{% url 'members:profile' %}">My Profile</a>
                 </li>
+                {% if user.is_staff %}
+                <li>
+                  <a class="dropdown-item" href="/admin/">Admin panel</a>
+                </li>
+                {% endif %}
                 <li><hr class="dropdown-divider"></li>
                 <li>
-                  <form method="post" action="/admin/logout/" class="d-inline w-100">
+                  <form method="post" action="{% url 'members:logout' %}" class="d-inline w-100">
                     {% csrf_token %}
                     <button type="submit" class="dropdown-item text-danger">
                       Logout
@@ -115,8 +118,11 @@
               </ul>
             </li>
           {% else %}
+            <li class="nav-item me-2">
+              <a class="btn btn-outline-light btn-sm" href="{% url 'members:register' %}">Register</a>
+            </li>
             <li class="nav-item">
-              <a class="btn btn-outline-light btn-sm" href="/admin/login/?next=/">Login</a>
+              <a class="btn btn-outline-light btn-sm" href="{% url 'members:login' %}">Login</a>
             </li>
           {% endif %}
         </ul>
