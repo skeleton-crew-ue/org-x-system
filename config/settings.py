@@ -102,7 +102,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Auth redirects (Mr H wires the real auth URLs in the members app).
 LOGIN_REDIRECT_URL = "core:home"
 LOGOUT_REDIRECT_URL = "core:home"
-LOGIN_URL = "/admin/login/"  # placeholder until members auth lands
+LOGIN_URL = "members:login"
 
 # --- Internationalization ------------------------------------------------
 LANGUAGE_CODE = "en-us"
