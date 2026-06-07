@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile — Org X System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-7">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="mb-0">My Profile</h2>
+      <a href="{% url 'members:profile_edit' %}" class="btn btn-outline-primary btn-sm">Edit</a>
+    </div>
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <dl class="row mb-0">
+          <dt class="col-sm-4">Full Name</dt>
+          <dd class="col-sm-8">{{ user.get_full_name|default:"—" }}</dd>
+
+          <dt class="col-sm-4">Email</dt>
+          <dd class="col-sm-8">{{ user.email|default:"—" }}</dd>
+
+          <dt class="col-sm-4">Phone</dt>
+          <dd class="col-sm-8">{{ user.phone|default:"—" }}</dd>
+
+          <dt class="col-sm-4">Role</dt>
+          <dd class="col-sm-8">
+            <span class="badge bg-primary">{{ user.get_role_display }}</span>
+          </dd>
+
+          <dt class="col-sm-4">Member ID</dt>
+          <dd class="col-sm-8">{{ user.member_id|default:"—" }}</dd>
+
+          <dt class="col-sm-4">Joined</dt>
+          <dd class="col-sm-8">{{ user.joined_at|default:"—" }}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
