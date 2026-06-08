@@ -6,36 +6,95 @@
 
   {% if user.is_authenticated %}
 
-    <div class="py-3">
-      <h1 class="display-6 fw-semibold">
-        Welcome back, {{ user.get_full_name|default:user.username }}.
+    <!-- Bienvenida del Usuario -->
+    <div class="py-4 border-bottom mb-4">
+      <h1 class="display-6 fw-bold">
+        Welcome back, <span style="color: var(--orgx-primary);">{{ user.get_full_name|default:user.username }}</span>.
       </h1>
-      <p class="lead text-muted mt-2">
-        Org X System is the member portal for your organization — a single place
-        to manage documents, votes, meetings, and finances.
+      <p class="lead text-muted mt-2 mb-0">
+        Org X System is your central member portal. Access your tools and stay updated below.
       </p>
     </div>
 
     {% if user.is_staff %}
-      <div class="alert alert-light border mt-2" role="alert">
-        You are logged in as an <strong>Admin</strong>.
-        Use the <a href="/admin/" class="alert-link">Admin panel</a> to manage
-        members, ballots, and other records.
+      <div class="alert alert-light border-start border-4 border-info shadow-sm mb-4" role="alert">
+        <div class="d-flex align-items-center">
+          <span class="me-2">💼</span>
+          <div>
+            You are logged in as an <strong>Admin</strong>. Use the <a href="/admin/" class="alert-link">Admin panel</a> to manage members, ballots, and other corporate records.
+          </div>
+        </div>
       </div>
     {% endif %}
 
+    <!-- Dashboard Grid: Secciones del Sistema -->
+    <h2 class="h4 fw-semibold text-secondary mb-3">Available Modules</h2>
+    <div class="row g-4">
+      
+      <!-- Card: Documents -->
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="card h-100 shadow-sm border-top border-4 border-primary">
+          <div class="card-body d-flex flex-column">
+            <div class="fs-2 mb-2">📁</div>
+            <h5 class="card-title fw-bold">Documents</h5>
+            <p class="card-text text-muted small flex-grow-1">Access, upload, and review organizational repositories and custom files securely.</p>
+            <a href="{% url 'documents:list' %}" class="btn btn-sm btn-primary mt-3 w-100">Open Module</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card: Voting -->
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="card h-100 shadow-sm border-top border-4 border-primary">
+          <div class="card-body d-flex flex-column">
+            <div class="fs-2 mb-2">🗳️</div>
+            <h5 class="card-title fw-bold">Voting</h5>
+            <p class="card-text text-muted small flex-grow-1">Cast your ballot, view active organization resolutions, and check election results.</p>
+            <a href="{% url 'voting:list' %}" class="btn btn-sm btn-primary mt-3 w-100">Open Module</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card: Meetings -->
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="card h-100 shadow-sm border-top border-4 border-primary">
+          <div class="card-body d-flex flex-column">
+            <div class="fs-2 mb-2">📅</div>
+            <h5 class="card-title fw-bold">Meetings</h5>
+            <p class="card-text text-muted small flex-grow-1">Check scheduled assemblies, join interactive sessions, and read minutes records.</p>
+            <a href="{% url 'meetings:list' %}" class="btn btn-sm btn-primary mt-3 w-100">Open Module</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card: Finance -->
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="card h-100 shadow-sm border-top border-4 border-primary">
+          <div class="card-body d-flex flex-column">
+            <div class="fs-2 mb-2">💳</div>
+            <h5 class="card-title fw-bold">Finance</h5>
+            <p class="card-text text-muted small flex-grow-1">Track financial transaction histories, organizational balances, and fee status.</p>
+            <a href="{% url 'finance:list' %}" class="btn btn-sm btn-primary mt-3 w-100">Open Module</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
   {% else %}
 
-    <div class="py-5 text-center">
-      <h1 class="display-5 fw-bold mb-3">Org X System</h1>
-      <p class="lead col-md-8 mx-auto text-muted">
-        A private member portal for managing organizational documents, votes,
-        meetings, and finances — all in one place.
-      </p>
-      <div class="mt-4">
-        <a class="btn btn-primary btn-lg px-5" href="/admin/login/?next=/">
-          Login
-        </a>
+    <!-- Vista de Bienvenida Pública (Invitados / Sin login) -->
+    <div class="py-5 text-center my-4 bg-white rounded-3 shadow-sm border">
+      <div class="container py-3">
+        <div class="display-4 fw-bold mb-3" style="color: var(--orgx-primary);">Org X System</div>
+        <p class="lead col-md-8 mx-auto text-muted mb-4">
+          A secure, private member portal dedicated to managing core organizational documents, votes, meetings, and finances — all in one unified environment.
+        </p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+          <a class="btn btn-primary btn-lg px-5 shadow-sm" href="{% url 'members:login' %}">
+            Sign In to Account
+          </a>
+        </div>
       </div>
     </div>
 
