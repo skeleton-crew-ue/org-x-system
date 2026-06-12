@@ -12,6 +12,7 @@ from django.urls import include, path
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("core.urls")),
+    path("documents/", include("documents.urls")),
     # --- Module URLs (uncomment as each app gains a urls.py) ---
     # path("accounts/", include("members.urls")),     # Mr H
     # path("documents/", include("documents.urls")),  # Mrs D
