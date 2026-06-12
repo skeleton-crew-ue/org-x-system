@@ -1,0 +1,14 @@
+<h1>Documents</h1>
+
+<form method="get">
+    <input type="text" name="q" placeholder="Search...">
+    <button type="submit">Search</button>
+</form>
+
+<ul>
+    {% for doc in documents %}
+        <li>
+            <a href="/documents/{{ doc.id }}/">{{ doc.title }}</a>
+        </li>
+    {% endfor %}
+</ul>
