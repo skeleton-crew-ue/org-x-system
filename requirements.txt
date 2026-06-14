@@ -12,3 +12,4 @@ crispy-bootstrap5==2024.10    # the Bootstrap 5 template pack
 pandas==2.2.*               # data migration + WhatsApp analytics
 vaderSentiment==3.3.*       # sentiment analysis
 python-dateutil==2.9.*      # WhatsApp export timestamp parsing
+Faker==30.*
