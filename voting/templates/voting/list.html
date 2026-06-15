@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Ballots — Org X System{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Ballots</h2>
+
+{# ── Open Ballots ─────────────────────────────────────────────────────── #}
+<h4 class="text-success mb-3">Open for voting</h4>
+{% if open_ballots %}
+  <div class="row g-3 mb-5">
+    {% for ballot in open_ballots %}
+      <div class="col-md-6">
+        <div class="card shadow-sm h-100">
+          <div class="card-body">
+            <h5 class="card-title">{{ ballot.title }}</h5>
+            {% if ballot.description %}
+              <p class="card-text text-muted small">{{ ballot.description }}</p>
+            {% endif %}
+            <p class="card-text small">
+              <span class="text-muted">Closes:</span>
+              {{ ballot.closes_at|date:"N j, Y, g:i a" }}
+            </p>
+          </div>
+          <div class="card-footer bg-transparent">
+            {% if ballot.pk in voted_ids %}
+              <span class="badge bg-secondary me-2">Voted</span>
+              <small class="text-muted">Results available after close</small>
+            {% else %}
+              <a href="{% url 'voting:detail' ballot.pk %}" class="btn btn-primary btn-sm">
+                Vote now
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="text-muted mb-5">No ballots are currently open.</p>
+{% endif %}
+
+{# ── Closed Ballots ───────────────────────────────────────────────────── #}
+<h4 class="mb-3">Closed</h4>
+{% if closed_ballots %}
+  <div class="row g-3">
+    {% for ballot in closed_ballots %}
+      <div class="col-md-6">
+        <div class="card shadow-sm h-100 border-secondary">
+          <div class="card-body">
+            <h5 class="card-title text-secondary">{{ ballot.title }}</h5>
+            <p class="card-text small">
+              <span class="text-muted">Closed:</span>
+              {{ ballot.closes_at|date:"N j, Y" }}
+            </p>
+          </div>
+          <div class="card-footer bg-transparent">
+            <a href="{% url 'voting:results' ballot.pk %}" class="btn btn-outline-secondary btn-sm">
+              View results
+            </a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="text-muted">No closed ballots yet.</p>
+{% endif %}
+{% endblock %}
