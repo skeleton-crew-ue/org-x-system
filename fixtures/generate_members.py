@@ -19,14 +19,13 @@ FIELDNAMES = [
     "member_id",
     "joined_at",
 ]
-def generate_member_id():
+def generate_member_id(i):
     if random.random() < 0.02:
-        return f"OX-{random.randint(1000, 9999)}"
-
-    return f"M-{random.randint(100000, 999999)}"
+        return f"OX-{1000 + i}"
+    return f"M-{100000 + i:06d}"
 
 def generate_joined_at():
-    start_date = datetime(2018, 1, 1)
+    start_date = datetime.now() - timedelta(days=365 * 10)
     end_date = datetime.now()
 
     random_days = random.randint(
@@ -50,7 +49,7 @@ def generate_rows():
                 "last_name": last_name,
                 "email": f"{first_name}.{last_name}.{i}@example.com".lower(),
                 "phone": fake.phone_number(),
-                "member_id": generate_member_id(),
+                "member_id": generate_member_id(i),
                 "joined_at": generate_joined_at(),
             })
 
