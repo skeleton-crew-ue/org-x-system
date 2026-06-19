@@ -1,8 +1,3 @@
-"""Root URL configuration.
-
-Each module owner adds their app's include() here as the app gains views.
-Keep routes namespaced (`<app>:<view>`) — see docs/Architecture.md §4.
-"""
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -15,10 +10,9 @@ urlpatterns = [
     path("documents/", include("documents.urls")),
     # --- Module URLs (uncomment as each app gains a urls.py) ---
     path("accounts/", include("members.urls")),
-    # path("documents/", include("documents.urls")),  # Mrs D
     path("voting/", include("voting.urls")),
-    # path("meetings/", include("meetings.urls")),     # Mr T
-    # path("finance/", include("finance.urls")),       # Mr T
+    #  path('meetings/', include('meetings.urls')),  
+    # path('finance/', include('finance.urls')),
     # path("whatsapp/", include("whatsapp.urls")),     # Lado
 ]
 
