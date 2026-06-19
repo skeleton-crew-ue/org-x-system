@@ -14,9 +14,9 @@ urlpatterns = [
     path("", include("core.urls")),
     path("documents/", include("documents.urls")),
     # --- Module URLs (uncomment as each app gains a urls.py) ---
-    # path("accounts/", include("members.urls")),     # Mr H
+    path("accounts/", include("members.urls")),
     # path("documents/", include("documents.urls")),  # Mrs D
-    # path("voting/", include("voting.urls")),         # Mrs D
+    path("voting/", include("voting.urls")),
     # path("meetings/", include("meetings.urls")),     # Mr T
     # path("finance/", include("finance.urls")),       # Mr T
     # path("whatsapp/", include("whatsapp.urls")),     # Lado
