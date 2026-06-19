@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}Finance Summary - Org X System{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-white fw-bold">Financial Overview</h2>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card bg-dark text-white border-success h-100 shadow-sm">
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <h6 class="text-success text-uppercase fw-bold mb-3">Total Income</h6>
+                    <h2 class="card-title display-6 fw-bold">${{ total_income|floatformat:2 }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-dark text-white border-danger h-100 shadow-sm">
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <h6 class="text-danger text-uppercase fw-bold mb-3">Total Expenses</h6>
+                    <h2 class="card-title display-6 fw-bold">${{ total_expense|floatformat:2 }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-dark text-white {% if net_balance >= 0 %}border-info{% else %}border-warning{% endif %} h-100 shadow-sm">
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <h6 class="{% if net_balance >= 0 %}text-info{% else %}text-warning{% endif %} text-uppercase fw-bold mb-3">Net Balance</h6>
+                    <h2 class="card-title display-6 fw-bold">${{ net_balance|floatformat:2 }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card bg-dark text-white shadow-sm border-secondary">
+        <div class="card-header bg-secondary bg-opacity-25 border-secondary">
+            <h5 class="mb-0 py-1">Transaction History</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-dark table-hover mb-0 align-middle">
+                    <thead class="table-secondary bg-opacity-10 text-uppercase fs-7 text-muted border-secondary">
+                        <tr>
+                            <th class="ps-4">Title</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th class="pe-4">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="border-secondary">
+                        {% for transaction in transactions %}
+                        <tr>
+                            <td class="fw-bold ps-4">{{ transaction.title }}</td>
+                            <td>
+                                {% if transaction.transaction_type == 'INCOME' %}
+                                <span class="badge bg-success-subtle text-success border border-success-subtle">Income</span>
+                                {% else %}
+                                <span class="badge bg-danger-subtle text-danger border border-danger-subtle">Expense</span>
+                                {% endif %}
+                            </td>
+                            <td class="fw-bold {% if transaction.transaction_type == 'INCOME' %}text-success{% else %}text-danger{% endif %}">
+                                {% if transaction.transaction_type == 'INCOME' %}+{% else %}-{% endif %}${{ transaction.amount }}
+                            </td>
+                            <td>{{ transaction.date|date:"Y-m-d" }}</td>
+                            <td class="text-muted pe-4">{{ transaction.description|default:"—" }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-5">
+                                <i class="bi bi-cash-stack display-6 d-block mb-2"></i>
+                                No transactions recorded yet.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

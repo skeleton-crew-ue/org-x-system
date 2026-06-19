@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     "documents",
     "voting",
     "meetings",
-    "finance",
+    "finance.apps.FinanceConfig",
     "whatsapp",
 ]
 
