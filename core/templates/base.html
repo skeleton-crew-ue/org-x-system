@@ -64,7 +64,7 @@
   <nav class="navbar navbar-expand-lg navbar-orgx shadow-sm">
     <div class="container">
 
-      <a class="navbar-brand fw-semibold" href="{% url 'core:home' %}">
+      <a class="navbar-brand fw-semibold" href="/">
         Org X System
       </a>
 
@@ -78,12 +78,14 @@
       <div class="collapse navbar-collapse" id="mainNav">
 
         {# ── Left: module links (add here as apps ship) ── #}
+        {# ── Left: module links (add here as apps ship) ── #}
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link" href="{% url 'documents:list' %}">Documents</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'voting:list' %}">Voting</a></li>    
-          <li class="nav-item"><a class="nav-link" href="{% url 'meetings:list' %}">Meetings</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'finance:list' %}">Finance</a></li> 
+          <li class="nav-item"><a class="nav-link" href="#">Documents</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Voting</a></li>    
+          <li class="nav-item"><a class="nav-link" href="/meetings/">Meetings</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Finance</a></li> 
         </ul>
+      
 
         {# ── Right: auth controls ── #}
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">

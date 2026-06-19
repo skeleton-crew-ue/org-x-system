@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">Upcoming Meetings</h2>
+        {% if user.is_staff %}
+            <a href="{% url 'admin:meetings_meeting_add' %}" class="btn btn-primary" target="_blank">
+                + Schedule Meeting
+            </a>
+        {% endif %}
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col" class="ps-4">Meeting / Title</th>
+                            <th scope="col">Date and Time</th>
+                            <th scope="col">Duration</th>
+                            <th scope="col">Access Link</th>
+                            <th scope="col" class="pe-4">Minutes / Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for meeting in meetings %}
+                            <tr>
+                                <td class="fw-bold ps-4">{{ meeting.title }}</td>
+                                <td>
+                                    <i class="bi bi-calendar3 me-1"></i> {{ meeting.date|date:"d M, Y" }} <br>
+                                    <small class="text-muted"><i class="bi bi-clock me-1"></i> {{ meeting.time|time:"H:i" }}</small>
+                                </td>
+                                <td>{{ meeting.duration_minutes }} min</td>
+                                <td>
+                                    {% if meeting.link %}
+                                        <a href="{{ meeting.link }}" class="btn btn-sm btn-outline-primary" target="_blank">
+                                            <i class="bi bi-camera-video me-1"></i> Join Meeting
+                                        </a>
+                                    {% else %}
+                                        <span class="text-muted">Not assigned</span>
+                                    {% endif %}
+                                </td>
+                                <td class="pe-4">
+                                    {% if meeting.minutes %}
+                                        <span class="text-truncate d-inline-block" style="max-width: 200px;" title="{{ meeting.minutes }}">
+                                            {{ meeting.minutes }}
+                                        </span>
+                                    {% else %}
+                                        <em class="text-muted">No notes</em>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center py-5 text-muted">
+                                    <i class="bi bi-calendar-x fs-2 d-block mb-2"></i>
+                                    No meetings scheduled at this time.
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
