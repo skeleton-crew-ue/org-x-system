@@ -1,6 +1,9 @@
+import functools
 from django.http import HttpResponseForbidden
 
+
 def admin_required(view_func):
+    @functools.wraps(view_func)
     def wrapper(request, *args, **kwargs):
         if not request.user.is_authenticated:
             return HttpResponseForbidden("Forbidden")
