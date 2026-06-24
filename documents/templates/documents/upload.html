@@ -1,2 +1,23 @@
-<h1>Upload (Admin only)</h1>
-<p>Upload form coming next step</p>
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+
+    <h2>Upload Document</h2>
+
+    <form method="post" enctype="multipart/form-data" class="mt-3">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit" class="btn btn-primary">
+            Upload
+        </button>
+
+        <a href="{% url 'documents:list' %}" class="btn btn-secondary">
+            Cancel
+        </a>
+    </form>
+
+</div>
+{% endblock %}
