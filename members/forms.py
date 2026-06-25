@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-
+from django.contrib.auth import authenticate
 from .models import User
+
 
 
 class RegistrationForm(UserCreationForm):
@@ -21,7 +22,7 @@ class RegistrationForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.username = self.cleaned_data["email"]
+        user.username = self.cleaned_data["email"].split("@")[0]
         user.role = User.Role.MEMBER
         if commit:
             user.save()
@@ -50,5 +51,6 @@ class ProfileEditForm(forms.ModelForm):
 class EmailAuthenticationForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["username"].label = "Email"
-        self.fields["username"].widget.attrs.update({"placeholder": "your@email.com"})
+        self.fields["username"].label = "Email Address/ Username"
+        self.fields["username"].widget.attrs.update({
+            "placeholder": "Enter" })
