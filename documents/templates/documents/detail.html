@@ -13,11 +13,11 @@
     </p>
 
     {% if document.tags.all %}
-        <p>
+        <div class="mb-3">
             {% for tag in document.tags.all %}
                 <span class="badge bg-secondary">{{ tag.name }}</span>
             {% endfor %}
-        </p>
+        </div>
     {% endif %}
 
     <a href="{% url 'documents:document_download' document.id %}"
