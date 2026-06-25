@@ -82,7 +82,9 @@
           <li class="nav-item"><a class="nav-link" href="{% url 'documents:list' %}">Documents</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'voting:list' %}">Voting</a></li>    
           <li class="nav-item"><a class="nav-link" href="{% url 'meetings:list' %}">Meetings</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'finance:list' %}">Finance</a></li> 
+          {% if user.is_authenticated and user.role == 'ADMIN' %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'finance:list' %}">Finance</a></li>
+          {% endif %}
         </ul>
 
         {# ── Right: auth controls ── #}
