@@ -36,7 +36,8 @@ class Command(BaseCommand):
             email = row.get("email", "").strip().lower()
             member_id = row.get("member_id", "").strip()
             phone = row.get("phone", "").strip()
-            name = row.get("name", "").strip()
+            first_name = row.get("first_name", "").strip()
+            last_name = row.get("last_name", "").strip()
             joined_at_raw = row.get("joined_at", "").strip()
 
             # EMAIL VALIDATION
@@ -46,6 +47,10 @@ class Command(BaseCommand):
                 continue
 
             # SKIP EXISTING
+            # Deduplication is based on email, matching EmailBackend's assumption
+            # that email is the unique identifier for a member. If a duplicate
+            # email is encountered and --skip-existing is set, the later row is
+            # silently skipped so the first imported record is authoritative.
             if skip_existing and User.objects.filter(email=email).exists():
                 skipped += 1
                 continue
@@ -69,10 +74,16 @@ class Command(BaseCommand):
             if dry_run:
                 continue
 
+            # Username scheme mirrors RegistrationForm: full email with @ → _at_
+            # and . → _ so that bob@gmail.com and bob@outlook.com never collide.
+            username = email.replace("@", "_at_").replace(".", "_")
+
             with transaction.atomic():
                 User.objects.create(
-                    username=email.split("@")[0] + str(i),
+                    username=username,
                     email=email,
+                    first_name=first_name,
+                    last_name=last_name,
                     member_id=member_id,
                     phone=phone,
                     joined_at=joined_at,
