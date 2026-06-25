@@ -15,7 +15,6 @@ from core.decorators import admin_required
 def document_list(request):
     q = request.GET.get("q")
     documents = Document.objects.all()
-
     if q:
         query = SearchQuery(q)
         documents = (
@@ -24,7 +23,6 @@ def document_list(request):
             .filter(rank__gte=0.1)
             .order_by("-rank")
         )
-
     return render(request, "documents/list.html", {
         "documents": documents,
         "query": q
@@ -40,7 +38,7 @@ def document_detail(request, id):
 @login_required
 def document_download(request, id):
     doc = get_object_or_404(Document, id=id)
-    return FileResponse(doc.file.open("rb"), as_attachment=True)
+    return FileResponse(doc.file.open('rb'), as_attachment=True)
 
 
 @login_required
@@ -55,12 +53,26 @@ def document_upload(request):
             document.save()
             form.save_m2m()
 
-            messages.success(request, "Document uploaded successfully.")
-            return redirect("documents:document_detail", id=document.id)
+            messages.success(
+                request,
+                "Document uploaded successfully."
+            )
 
-        messages.error(request, "Please correct the errors below.")
+            return redirect(
+                "documents:document_detail",
+                id=document.id
+            )
+
+        messages.error(
+            request,
+            "Please correct the errors below."
+        )
 
     else:
         form = DocumentUploadForm()
 
-    return render(request, "documents/upload.html", {"form": form})
+    return render(
+        request,
+        "documents/upload.html",
+        {"form": form}
+    )
