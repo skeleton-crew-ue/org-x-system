@@ -1,9 +1,8 @@
-from django.db import models
+from django.contrib.postgres.indexes import GinIndex
 from django.contrib.postgres.search import SearchVectorField
+from django.db import models
 from django.utils.text import slugify
 
-
-search_vector = SearchVectorField(null=True, blank=True)
 
 class Tag(models.Model):
     name = models.CharField(max_length=60, unique=True)
@@ -34,6 +33,9 @@ class Document(models.Model):
 
     class Meta:
         ordering = ['-uploaded_at']
+        indexes = [
+            GinIndex(fields=['search_vector'], name='documents_search_gin'),
+        ]
 
     def __str__(self):
         return self.title
