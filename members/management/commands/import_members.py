@@ -16,12 +16,10 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("csv_path")
         parser.add_argument("--dry-run", action="store_true")
-        parser.add_argument("--skip-existing", action="store_true")
 
     def handle(self, *args, **options):
         path = options["csv_path"]
         dry_run = options["dry_run"]
-        skip_existing = options["skip_existing"]
 
         df = pd.read_csv(path, dtype=str, keep_default_na=False)
 
@@ -46,12 +44,12 @@ class Command(BaseCommand):
                 skipped += 1
                 continue
 
-            # SKIP EXISTING
-            # Deduplication is based on email, matching EmailBackend's assumption
-            # that email is the unique identifier for a member. If a duplicate
-            # email is encountered and --skip-existing is set, the later row is
-            # silently skipped so the first imported record is authoritative.
-            if skip_existing and User.objects.filter(email=email).exists():
+            # SKIP DUPLICATE EMAILS
+            # One account per email is enforced here and by clean_email() in
+            # RegistrationForm. The first imported row wins; later duplicates
+            # are skipped with a warning.
+            if User.objects.filter(email=email).exists():
+                self.stdout.write(f"Skipping duplicate email at row {i}: {email}")
                 skipped += 1
                 continue
 
@@ -74,13 +72,9 @@ class Command(BaseCommand):
             if dry_run:
                 continue
 
-            # Username scheme mirrors RegistrationForm: full email with @ → _at_
-            # and . → _ so that bob@gmail.com and bob@outlook.com never collide.
-            username = email.replace("@", "_at_").replace(".", "_")
-
             with transaction.atomic():
                 User.objects.create(
-                    username=username,
+                    username=email,
                     email=email,
                     first_name=first_name,
                     last_name=last_name,
@@ -89,7 +83,6 @@ class Command(BaseCommand):
                     joined_at=joined_at,
                     role=User.Role.MEMBER,
                 )
-
                 created += 1
 
         self.stdout.write(self.style.SUCCESS(

@@ -13,7 +13,7 @@ with at least the following columns:
 
 | Column | Required | Notes |
 |---|---|---|
-| `email` | Yes | Lowercased; invalid rows are skipped |
+| `email` | Yes | Lowercased; invalid or duplicate rows are skipped |
 | `first_name` | Yes | Stored on the User model |
 | `last_name` | Yes | Stored on the User model |
 | `member_id` | No | Auto-generated as `M-<row_index>` if blank |
@@ -25,47 +25,47 @@ with at least the following columns:
 - Trim leading/trailing whitespace from all fields.
 - Convert email addresses to lowercase.
 - Skip rows with a blank or malformed email address.
-- Skip rows with a duplicate email when `--skip-existing` is passed (first
-  record wins; later duplicates are silently skipped).
+- Skip rows with a duplicate email (first record wins; later duplicates are
+  skipped with a warning line in stdout).
 - Auto-generate `member_id` values for rows where the field is blank.
 - Normalise Georgian phone numbers: 9-digit numbers are prefixed with `+995`.
 - Set `joined_at` to NULL when the date string cannot be parsed.
 
 ## Username Scheme
 
-Usernames are derived from the **full email address** — not just the local
-part before `@` — to prevent collisions between accounts that share a local
-part but use different domains (e.g. `bob@gmail.com` vs `bob@outlook.com`).
-
-The transformation is:
-
-```
-bob@gmail.com  →  bob_at_gmail_com
-```
-
-This scheme is consistent across:
-
-- `RegistrationForm.save()` in `members/forms.py`
-- `ProfileEditForm.save()` in `members/forms.py`
-- `import_members` management command
+The full email address is used directly as the username with no
+transformation. Django's default username validator permits `@` and `.`, so
+`bob@gmail.com` is a valid username. Uniqueness beyond what the email field
+already guarantees is handled by `clean_email()` in `RegistrationForm` and by
+the duplicate-email check in the importer.
 
 ## Duplicate-Email Handling
 
-The `EmailBackend` in `members/backends.py` authenticates users by email.
-It uses `filter().first()` rather than `get()` so that if duplicate email
-rows exist in the database (e.g. from a failed import run), authentication
-degrades gracefully instead of raising `MultipleObjectsReturned`.
+One account per email address is the rule across the entire codebase:
 
-To prevent duplicates from being created in the first place, always run the
-importer with `--skip-existing`.
+- `RegistrationForm.clean_email()` rejects registration attempts with an
+  already-used email.
+- The importer always skips rows whose email already exists in the database
+  (first record wins).
+- `EmailBackend` uses `filter().first()` as a safety net so that if a
+  duplicate somehow exists, authentication degrades gracefully instead of
+  raising `MultipleObjectsReturned`.
+
+## Running the Importer
+
+```bash
+# Dry run — no database writes
+python manage.py import_members path/to/members.csv --dry-run
+
+# Live import
+python manage.py import_members path/to/members.csv
+```
 
 ## Decision Log
 
 - Synthetic dataset used because no production member data was available.
-- Duplicate emails are skipped (first record wins) when `--skip-existing` is
-  set; without the flag the command will attempt to create all rows and may
-  fail on unique-email constraints.
+- Duplicate emails are always skipped (no flag required); first record wins.
 - Invalid emails are skipped with a warning line in stdout.
 - Missing `member_id` values are auto-generated.
-- The `members_dump.json` fixture was removed from the branch before merging
-  to avoid committing potentially sensitive member data.
+- `members_dump.json` was removed from branch history before merging to avoid
+  committing member data to the repository.

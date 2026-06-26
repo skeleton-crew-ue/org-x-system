@@ -20,10 +20,10 @@ class RegistrationForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        # Derive username from the FULL email address to prevent collisions
-        # between accounts like bob@gmail.com and bob@outlook.com.
-        # @ and . are replaced so the result is a valid Django username.
-        user.username = self.cleaned_data["email"].replace("@", "_at_").replace(".", "_")
+        # Use the full email address as the username directly.
+        # Django's username validator permits @ and . so no transformation needed.
+        # Uniqueness is guaranteed by clean_email() above.
+        user.username = self.cleaned_data["email"]
         user.role = User.Role.MEMBER
         if commit:
             user.save()
@@ -43,7 +43,7 @@ class ProfileEditForm(forms.ModelForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.username = user.email.replace("@", "_at_").replace(".", "_")
+        user.username = user.email
         if commit:
             user.save()
         return user
