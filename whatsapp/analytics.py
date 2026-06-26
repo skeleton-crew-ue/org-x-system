@@ -7,6 +7,7 @@ _vader = SentimentIntensityAnalyzer()
 
 BURST_WINDOW_SECONDS = 120
 BURST_MESSAGE_THRESHOLD = 5
+ENGAGEMENT_WINDOW_SECONDS = 300
 
 
 def sentiment_analysis(df):
@@ -69,7 +70,43 @@ def compute_sentiment(df):
 
 
 def compute_top_influencers(df):
-    return df[~df["is_system"]]["sender"].value_counts().head(5).index.tolist()
+    """Rank senders by engagement triggered, not raw chattiness: messages
+    from OTHER senders landing within ENGAGEMENT_WINDOW_SECONDS after the
+    end of one of their "turns" (a run of consecutive messages from the
+    same sender, counted once to avoid a rapid-fire burst inflating its
+    own score). Ties fall back to raw message count.
+    """
+    real = df[~df["is_system"]].sort_values("timestamp").reset_index(drop=True)
+    senders = real["sender"].tolist()
+    timestamps = real["timestamp"].tolist()
+    n = len(real)
+
+    message_count = real["sender"].value_counts().to_dict()
+    engagement = {}
+
+    i = 0
+    while i < n:
+        turn_sender = senders[i]
+        while i + 1 < n and senders[i + 1] == turn_sender:
+            i += 1
+        turn_end_time = timestamps[i]
+
+        count = 0
+        j = i + 1
+        while j < n and (timestamps[j] - turn_end_time).total_seconds() <= ENGAGEMENT_WINDOW_SECONDS:
+            if senders[j] != turn_sender:
+                count += 1
+            j += 1
+        engagement[turn_sender] = engagement.get(turn_sender, 0) + count
+
+        i += 1
+
+    ranked = sorted(
+        message_count,
+        key=lambda sender: (engagement.get(sender, 0), message_count[sender]),
+        reverse=True,
+    )
+    return ranked[:5]
 
 
 def compute_frequency(df):

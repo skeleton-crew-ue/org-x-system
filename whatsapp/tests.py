@@ -1,9 +1,11 @@
 import json
+from datetime import datetime, timedelta
 from pathlib import Path
 
+import pandas as pd
 from django.test import TestCase
 
-from .analytics import analyze
+from .analytics import analyze, compute_top_influencers
 
 FIXTURE_PATH = Path(__file__).resolve().parent / "fixtures" / "whatsapp_sample.txt"
 
@@ -65,3 +67,25 @@ class AnalyzeTests(TestCase):
 
     def test_results_are_json_serializable(self):
         json.dumps(self.results)
+
+
+class ComputeTopInfluencersTests(TestCase):
+    def test_ranks_engagement_triggered_over_raw_message_count(self):
+        base = datetime(2026, 1, 1, 9, 0, 0)
+        rows = [
+            {"timestamp": base, "sender": "Alice", "is_system": False},
+            {"timestamp": base + timedelta(minutes=1), "sender": "Bob", "is_system": False},
+            {"timestamp": base + timedelta(minutes=2), "sender": "Carol", "is_system": False},
+            {"timestamp": base + timedelta(minutes=3), "sender": "Dave", "is_system": False},
+        ]
+        # Eve fires off 10 messages back-to-back an hour later; nobody replies.
+        rows += [
+            {"timestamp": base + timedelta(hours=1, seconds=i), "sender": "Eve", "is_system": False}
+            for i in range(10)
+        ]
+        df = pd.DataFrame(rows)
+
+        top = compute_top_influencers(df)
+
+        self.assertEqual(top[0], "Alice")
+        self.assertLess(top.index("Alice"), top.index("Eve"))

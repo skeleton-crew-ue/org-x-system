@@ -70,8 +70,9 @@
   </table>
 
   {# ── Top influencers ──────────────────────────────────────────────── #}
-  <h4 class="mb-3">Top Influencers</h4>
-  <ol class="list-group list-group-numbered mb-4">
+  <h4 class="mb-1">Top Influencers</h4>
+  <small class="text-muted">Ranked by how much conversation each person's messages spark, not raw message count.</small>
+  <ol class="list-group list-group-numbered mb-4 mt-2">
     {% for name in results.top_influencers %}
       <li class="list-group-item">{{ name }}</li>
     {% empty %}
