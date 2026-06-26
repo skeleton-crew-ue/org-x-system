@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Upload WhatsApp Chat — Org X System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <h2 class="card-title mb-4">Upload WhatsApp Chat Export</h2>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ form|crispy }}
+          <button type="submit" class="btn btn-primary w-100 mt-2">Upload</button>
+        </form>
+        <hr>
+        <a href="{% url 'whatsapp:dashboard' %}">Back to dashboard</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
