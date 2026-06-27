@@ -11,6 +11,8 @@ See docs/Architecture.md §8 for the full settings rationale.
 from pathlib import Path
 
 import environ
+import ssl
+import certifi
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -46,6 +48,7 @@ INSTALLED_APPS = [
     "meetings",
     "finance",
     "whatsapp",
+    "notifications",
 ]
 
 MIDDLEWARE = [
@@ -104,6 +107,7 @@ LOGIN_REDIRECT_URL = "core:home"
 LOGOUT_REDIRECT_URL = "core:home"
 LOGIN_URL = "members:login"
 
+
 # --- Internationalization ------------------------------------------------
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = env("TIME_ZONE", default="UTC")
@@ -136,11 +140,17 @@ EMAIL_HOST = env("EMAIL_HOST", default="")
 EMAIL_PORT = env.int("EMAIL_PORT", default=587)
 EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="")
-EMAIL_USE_TLS = True
+EMAIL_USE_TLS = EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=True)
+EMAIL_SSL_CONTEXT = ssl.create_default_context(cafile=certifi.where())
+EMAIL_USE_SSL = False
 DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="webmaster@localhost")
 if not EMAIL_HOST:
-    # No SMTP configured (e.g. fresh checkout) — print emails to the console.
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+else:
+    import ssl
+    EMAIL_SSL_CONTEXT = ssl.create_default_context()
+    EMAIL_SSL_CONTEXT.check_hostname = False
+    EMAIL_SSL_CONTEXT.verify_mode = ssl.CERT_NONE
 
 # --- Production hardening -------------------------------------------------
 # Active only when DEBUG=False. Mr H verifies these don't cause redirect
@@ -152,3 +162,12 @@ if not DEBUG:
     CSRF_COOKIE_SECURE = True
     SECURE_HSTS_SECONDS = 3600
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+AUTHENTICATION_BACKENDS = [
+    "members.backends.EmailBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]
+# for Mac SSL certificate verification with Mailtrap (dev only)
+if DEBUG:
+    import ssl
+    ssl._create_default_https_context = ssl._create_unverified_context

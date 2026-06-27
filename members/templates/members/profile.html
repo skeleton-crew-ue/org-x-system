@@ -30,7 +30,7 @@
           <dd class="col-sm-8">{{ user.member_id|default:"—" }}</dd>
 
           <dt class="col-sm-4">Joined</dt>
-          <dd class="col-sm-8">{{ user.joined_at|default:"—" }}</dd>
+          <dd class="col-sm-8">{{ user.joined_at|date:"d M Y" }}</dd>
         </dl>
       </div>
     </div>
