@@ -3,14 +3,12 @@ from .models import Category, Transaction
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ("name", "type")
+    list_display = ('name', 'type')
+    list_filter = ('type',)
 
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
-    list_display = ("amount", "transaction_date", "type", "category", "recorded_by")
+    list_display = ('transaction_date', 'type', 'category', 'amount', 'recorded_by')
+    list_filter = ('type', 'category', 'transaction_date')
+    search_fields = ('description',)
     
-    def save_model(self, request, obj, form, change):
-        if not obj.pk:
-            obj.recorded_by = request.user
-        super().save_model(request, obj, form, change)
-        

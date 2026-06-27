@@ -42,7 +42,7 @@ def document_download(request, id):
 
 
 @login_required
-@admin_required
+#@admin_required
 def document_upload(request):
     if request.method == "POST":
         form = DocumentUploadForm(request.POST, request.FILES)

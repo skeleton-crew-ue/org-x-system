@@ -1,3 +1,8 @@
-from django.contrib import admin
+from django.shortcuts import render
 
-# Register your models here.
+def custom_page_not_found(request, exception):
+    return render(request, '404.html', status=404)
+
+def custom_error_view(request):
+    return render(request, '500.html', status=500)
+    
