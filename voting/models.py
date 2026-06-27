@@ -3,7 +3,6 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 
-
 class Ballot(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
@@ -58,3 +57,4 @@ class Vote(models.Model):
 
     def __str__(self):
         return f"{self.voter} → {self.ballot}"
+        
