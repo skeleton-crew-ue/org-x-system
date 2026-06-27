@@ -47,7 +47,31 @@
     &middot; Analyzed {{ analysis.generated_at }}
   </p>
 
-  {# Part 2 will add Chart.js sections here for peak_hours, frequency, and sentiment #}
+  {# ── Charts ────────────────────────────────────────────────────────── #}
+  {{ results.peak_hours|json_script:"peak-hours-data" }}
+  {{ results.frequency.daily|json_script:"daily-frequency-data" }}
+  {{ results.sentiment|json_script:"sentiment-data" }}
+
+  <div class="row mb-4">
+    <div class="col-md-6 mb-3">
+      <div class="card p-3">
+        <h6 class="text-muted">Peak Hours</h6>
+        <canvas id="peakHoursChart"></canvas>
+      </div>
+    </div>
+    <div class="col-md-6 mb-3">
+      <div class="card p-3">
+        <h6 class="text-muted">Sentiment Breakdown</h6>
+        <canvas id="sentimentChart"></canvas>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="card p-3">
+        <h6 class="text-muted">Daily Message Frequency</h6>
+        <canvas id="dailyFrequencyChart"></canvas>
+      </div>
+    </div>
+  </div>
 
   {# ── Top contributors ─────────────────────────────────────────────── #}
   <h4 class="mb-3">Top Contributors</h4>
@@ -101,5 +125,43 @@
     {% endfor %}
   </div>
 
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+{% if results %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script>
+  const peakHours = JSON.parse(document.getElementById("peak-hours-data").textContent);
+  new Chart(document.getElementById("peakHoursChart"), {
+    type: "bar",
+    data: {
+      labels: peakHours.map((h) => h.hour),
+      datasets: [{ label: "Messages", data: peakHours.map((h) => h.count), backgroundColor: "#0d9488" }],
+    },
+    options: { scales: { x: { title: { display: true, text: "Hour of day" } } } },
+  });
+
+  const dailyFrequency = JSON.parse(document.getElementById("daily-frequency-data").textContent);
+  new Chart(document.getElementById("dailyFrequencyChart"), {
+    type: "line",
+    data: {
+      labels: dailyFrequency.map((d) => d.date),
+      datasets: [{ label: "Messages", data: dailyFrequency.map((d) => d.count), borderColor: "#0d9488", tension: 0.2 }],
+    },
+  });
+
+  const sentiment = JSON.parse(document.getElementById("sentiment-data").textContent);
+  new Chart(document.getElementById("sentimentChart"), {
+    type: "doughnut",
+    data: {
+      labels: ["Positive", "Neutral", "Negative"],
+      datasets: [{
+        data: [sentiment.positive, sentiment.neutral, sentiment.negative],
+        backgroundColor: ["#0d9488", "#cbd5e1", "#dc2626"],
+      }],
+    },
+  });
+</script>
 {% endif %}
 {% endblock %}

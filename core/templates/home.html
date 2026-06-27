@@ -29,10 +29,10 @@
 
     <!-- Dashboard Grid: Secciones del Sistema -->
     <h2 class="h4 fw-semibold text-secondary mb-3">Available Modules</h2>
-    <div class="row g-4">
-      
+    <div class="row g-4 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5">
+
       <!-- Card: Documents -->
-      <div class="col-12 col-md-6 col-lg-3">
+      <div class="col">
         <div class="card h-100 shadow-sm border-top border-4 border-primary">
           <div class="card-body d-flex flex-column">
             <div class="fs-2 mb-2">📁</div>
@@ -44,7 +44,7 @@
       </div>
 
       <!-- Card: Voting -->
-      <div class="col-12 col-md-6 col-lg-3">
+      <div class="col">
         <div class="card h-100 shadow-sm border-top border-4 border-primary">
           <div class="card-body d-flex flex-column">
             <div class="fs-2 mb-2">🗳️</div>
@@ -56,7 +56,7 @@
       </div>
 
       <!-- Card: Meetings -->
-      <div class="col-12 col-md-6 col-lg-3">
+      <div class="col">
         <div class="card h-100 shadow-sm border-top border-4 border-primary">
           <div class="card-body d-flex flex-column">
             <div class="fs-2 mb-2">📅</div>
@@ -68,13 +68,25 @@
       </div>
 
       <!-- Card: Finance -->
-      <div class="col-12 col-md-6 col-lg-3">
+      <div class="col">
         <div class="card h-100 shadow-sm border-top border-4 border-primary">
           <div class="card-body d-flex flex-column">
             <div class="fs-2 mb-2">💳</div>
             <h5 class="card-title fw-bold">Finance</h5>
             <p class="card-text text-muted small flex-grow-1">Track financial transaction histories, organizational balances, and fee status.</p>
             <a href="{% url 'finance:list' %}" class="btn btn-sm btn-primary mt-3 w-100">Open Module</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card: WhatsApp -->
+      <div class="col">
+        <div class="card h-100 shadow-sm border-top border-4 border-primary">
+          <div class="card-body d-flex flex-column">
+            <div class="fs-2 mb-2">💬</div>
+            <h5 class="card-title fw-bold">WhatsApp</h5>
+            <p class="card-text text-muted small flex-grow-1">Review group chat analytics: activity trends, top contributors, and sentiment.</p>
+            <a href="{% url 'whatsapp:dashboard' %}" class="btn btn-sm btn-primary mt-3 w-100">Open Module</a>
           </div>
         </div>
       </div>
