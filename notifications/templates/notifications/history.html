@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Broadcast History – Org X System{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h2 class="mb-0">Broadcast History</h2>
+    <small class="text-muted">All emails sent to members</small>
+  </div>
+  <a href="{% url 'notifications:compose' %}" class="btn btn-primary btn-sm">
+    + New Broadcast
+  </a>
+</div>
+
+{% if broadcasts %}
+  <div class="card shadow-sm">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Subject</th>
+            <th>Recipients</th>
+            <th>Sent to</th>
+            <th>Sent by</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for b in broadcasts %}
+            <tr>
+              <td class="fw-semibold">{{ b.subject }}</td>
+              <td>
+                <span class="badge
+                  {% if b.recipient_filter == 'ALL' %}bg-primary
+                  {% elif b.recipient_filter == 'ACTIVE' %}bg-success
+                  {% else %}bg-warning text-dark
+                  {% endif %}">
+                  {{ b.get_recipient_filter_display }}
+                </span>
+              </td>
+              <td>{{ b.recipient_count }} member{{ b.recipient_count|pluralize }}</td>
+              <td>{{ b.sent_by.get_full_name|default:b.sent_by.username }}</td>
+              <td class="text-muted">{{ b.sent_at|date:"d M Y, H:i" }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+{% else %}
+  <div class="text-center py-5 text-muted">
+    <p class="mb-3">No broadcasts have been sent yet.</p>
+    <a href="{% url 'notifications:compose' %}" class="btn btn-primary">
+      Send your first broadcast
+    </a>
+  </div>
+{% endif %}
+
+{% endblock %}
