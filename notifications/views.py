@@ -1,6 +1,9 @@
+import time
+import logging
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mass_mail
+from django.core.mail import send_mail
 from django.shortcuts import redirect, render
 from django.conf import settings
 
@@ -8,6 +11,8 @@ from core.decorators import admin_required
 from members.models import User
 from .forms import BroadcastForm
 from .models import Broadcast
+
+logger = logging.getLogger(__name__)
 
 
 def _resolve_recipients(recipient_filter):
@@ -36,30 +41,40 @@ def broadcast_compose(request):
         recipients = _resolve_recipients(broadcast.recipient_filter)
         email_list = list(recipients.values_list("email", flat=True))
 
-        # Build a tuple per recipient for send_mass_mail
-        datatuple = tuple(
-            (
-                broadcast.subject,
-                broadcast.body,
-                settings.DEFAULT_FROM_EMAIL,
-                [email],
-            )
-            for email in email_list
-        )
+        sent = 0
+        errors = 0
 
-        try:
-            sent = send_mass_mail(datatuple, fail_silently=False)
-        except Exception as e:
-            messages.error(request, f"Failed to send broadcast: {e}")
-            return render(request, "notifications/compose.html", {"form": form})
+        for email in email_list:
+            try:
+                send_mail(
+                    subject=broadcast.subject,
+                    message=broadcast.body,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[email],
+                    fail_silently=False,
+                )
+                sent += 1
+                # Small delay to stay within Mailtrap's free-plan rate limit.
+                # Remove or reduce this in production with a real SMTP provider.
+                time.sleep(0.5)
+            except Exception as e:
+                errors += 1
+                logger.warning(f"Failed to send broadcast to {email}: {e}")
 
         broadcast.recipient_count = sent
         broadcast.save()
 
-        messages.success(
-            request,
-            f"Broadcast sent to {sent} recipient{'s' if sent != 1 else ''}."
-        )
+        if errors:
+            messages.warning(
+                request,
+                f"Broadcast sent to {sent} recipient{'s' if sent != 1 else ''}. "
+                f"{errors} failed — check server logs."
+            )
+        else:
+            messages.success(
+                request,
+                f"Broadcast sent to {sent} recipient{'s' if sent != 1 else ''}."
+            )
         return redirect("notifications:history")
 
     return render(request, "notifications/compose.html", {"form": form})
