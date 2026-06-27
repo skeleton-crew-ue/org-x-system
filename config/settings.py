@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "meetings",
     "finance",
     "whatsapp",
+    "notifications",
 ]
 
 MIDDLEWARE = [
