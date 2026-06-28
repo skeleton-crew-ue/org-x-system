@@ -2,7 +2,7 @@ import csv
 import random
 from datetime import date, timedelta
 
-OUTPUT_FILE = "org-x-system/fixtures/members_4k.csv"
+OUTPUT_FILE = "fixtures/members_4k.csv"
 
 FIRST_NAMES = [
     "John", "Jane", "Michael", "Sarah", "David",
