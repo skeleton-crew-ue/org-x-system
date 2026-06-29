@@ -11,6 +11,7 @@ urlpatterns = [
     path("voting/", include("voting.urls")),
     path("meetings/", include("meetings.urls")),
     path("finance/", include("finance.urls")),
+    path("whatsapp/", include("whatsapp.urls")),
 ]
 
 handler404 = 'core.views.custom_page_not_found'

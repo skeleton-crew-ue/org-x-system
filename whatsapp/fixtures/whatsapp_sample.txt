@@ -1,0 +1,96 @@
+[2026-03-15, 14:23:01] John Doe: Welcome to the group!
+[2026-03-15, 14:24:15] Jane Smith: <Media omitted>
+[2026-03-15, 14:25:30] John Doe: When is the next meeting we agreed on?
+[2026-03-15, 14:26:02] System: John Doe added Bob Wilson
+[2026-03-15, 14:27:10] Bob Wilson: Hi everyone, thanks for adding me
+[2026-03-15, 14:28:45] Jane Smith: I think we said Tuesday?
+[2026-03-15, 14:29:12] John Doe: Yes, Tuesday works
+[2026-03-15, 14:30:00] System: Jane Smith changed the group description
+[2026-03-15, 14:31:22] Bob Wilson: What time on Tuesday?
+[2026-03-15, 14:32:05] John Doe: Around 10:00 CET
+[2026-03-15, 14:33:18] Jane Smith: Works for me
+[2026-03-15, 14:34:44] Bob Wilson: Same here
+[2026-03-15, 14:35:02] System: Mike Brown joined using this group's invite link
+[2026-03-15, 14:36:10] Mike Brown: Hello everyone
+[2026-03-15, 14:37:55] Jane Smith: Hi Mike
+[2026-03-15, 14:38:22] John Doe: Welcome Mike
+[2026-03-15, 14:39:40] Mike Brown: Thanks! What did I miss?
+[2026-03-15, 14:40:15] Bob Wilson: Planning next meeting Tuesday 10
+[2026-03-15, 14:41:01] Mike Brown: Got it
+[2026-03-15, 14:42:12] Jane Smith: Sharing agenda shortly
+[2026-03-15, 14:43:33] Jane Smith: <Document omitted>
+[2026-03-15, 14:44:05] John Doe: Looks good
+[2026-03-15, 14:45:17] Mike Brown: I suggest adding budget discussion
+[2026-03-15, 14:46:29] Jane Smith: Good point, will update
+[2026-03-15, 14:47:58] Jane Smith: This message was deleted
+[2026-03-15, 14:48:12] Jane Smith: Updated version coming
+[2026-03-15, 14:49:35] Jane Smith: <Document omitted>
+[2026-03-15, 14:50:21] Bob Wilson: Perfect
+[2026-03-15, 14:51:03] System: Mike Brown changed the group icon
+[2026-03-15, 14:52:44] John Doe: Nice new icon
+[2026-03-15, 14:53:20] Mike Brown: Thanks
+[2026-03-15, 14:54:11] Jane Smith: Should we invite Sarah?
+[2026-03-15, 14:55:02] John Doe: Yes please
+[2026-03-15, 14:55:30] System: Jane Smith added Sarah Connor
+[2026-03-15, 14:56:41] Sarah Connor: Hi all
+[2026-03-15, 14:57:22] Bob Wilson: Welcome Sarah
+[2026-03-15, 14:58:03] Sarah Connor: Thanks, glad to join
+[2026-03-15, 14:59:45] John Doe: Meeting Tuesday 10:00 CET
+[2026-03-15, 15:00:12] Sarah Connor: Works for me
+[2026-03-15, 15:01:50] Mike Brown: Sharing link
+[2026-03-15, 15:02:10] Mike Brown: https://meet.example.com/abc123
+[2026-03-15, 15:03:25] Jane Smith: Saved
+[2026-03-15, 15:04:42] Bob Wilson: Thanks
+[2026-03-15, 15:05:18] Sarah Connor: Got it
+[2026-03-15, 15:06:00] John Doe: Please review agenda before meeting
+[2026-03-15, 15:07:33] Jane Smith: Will do
+[2026-03-15, 15:08:27] Mike Brown: Same
+[2026-03-15, 15:09:11] Bob Wilson: Sure
+[2026-03-15, 15:10:45] Sarah Connor: Yes
+[2026-03-15, 15:11:22] System: Bob Wilson left
+[2026-03-15, 15:12:03] John Doe: Looks like Bob dropped
+[2026-03-15, 15:13:17] Jane Smith: Maybe connection issue
+[2026-03-15, 15:14:05] System: Bob Wilson joined using this group's invite link
+[2026-03-15, 15:15:12] Bob Wilson: Sorry, got disconnected
+[2026-03-15, 15:16:00] John Doe: No worries
+[2026-03-15, 15:17:28] Sarah Connor: Happens
+[2026-03-15, 15:18:11] Mike Brown: All good
+[2026-03-15, 15:19:55] Jane Smith: Reminder set
+[2026-03-15, 15:20:43] John Doe: Thanks
+[2026-03-15, 15:21:30] Mike Brown: See you all Tuesday
+[2026-03-15, 15:22:18] Sarah Connor: See you
+[2026-03-15, 15:23:07] Bob Wilson: Bye
+[2026-03-15, 15:24:55] Jane Smith: Bye everyone
+[2026-03-15, 15:25:40] John Doe: Closing thread for now
+[2026-03-16, 09:02:11] John Doe: Good morning
+[2026-03-16, 09:03:25] Jane Smith: Morning
+[2026-03-16, 09:04:50] Mike Brown: Morning all
+[2026-03-16, 09:05:33] Sarah Connor: Good morning
+[2026-03-16, 09:06:12] Bob Wilson: Morning
+[2026-03-16, 09:07:45] Jane Smith: Quick update: budget doc ready
+[2026-03-16, 09:08:10] Jane Smith: <Document omitted>
+[2026-03-16, 09:09:22] John Doe: Reviewing
+[2026-03-16, 09:10:05] Mike Brown: Looks detailed
+[2026-03-16, 09:11:44] Sarah Connor: Will check later
+[2026-03-16, 09:12:30] Bob Wilson: Same
+[2026-03-16, 09:13:18] John Doe: This message was deleted
+[2026-03-16, 09:14:02] John Doe: Ignore previous note
+[2026-03-16, 09:15:37] Jane Smith: Noted
+[2026-03-16, 09:16:55] Mike Brown: Question about line 3
+[2026-03-16, 09:17:40] Jane Smith: Yes?
+[2026-03-16, 09:18:22] Mike Brown: Why is cost doubled?
+[2026-03-16, 09:19:10] Jane Smith: That includes contingency
+[2026-03-16, 09:20:33] Mike Brown: Understood
+[2026-03-16, 09:21:45] Sarah Connor: Makes sense
+[2026-03-16, 09:22:18] Bob Wilson: Agree
+[2026-03-16, 09:23:50] System: John Doe changed this group's settings to allow only admins to send messages
+[2026-03-16, 09:24:12] Jane Smith: Testing admin-only mode
+[2026-03-16, 09:25:00] System: John Doe changed this group's settings to allow all participants to send messages
+[2026-03-16, 09:25:40] Mike Brown: Back to normal
+[2026-03-16, 09:26:18] Sarah Connor: Good
+[2026-03-16, 09:27:05] Bob Wilson: Works
+[2026-03-16, 09:28:33] John Doe: Meeting tomorrow, don’t forget
+[2026-03-16, 09:29:12] Jane Smith: Calendar blocked
+[2026-03-16, 09:30:01] Mike Brown: Same here
+[2026-03-16, 09:30:55] Sarah Connor: Ready
+[2026-03-16, 09:31:40] Bob Wilson: See you all then
