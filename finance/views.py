@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
+# Importa admin_required desde core.decorators
+from core.decorators import admin_required
 from django.db.models import Sum
 from .models import Transaction
 
-@login_required
+@admin_required # Cambiado de @login_required a @admin_required
 def transaction_list(request):
     transactions = Transaction.objects.all().order_by('-transaction_date')
     
@@ -19,7 +20,6 @@ def transaction_list(request):
         'balance': balance,
     })
 
-@login_required
+@admin_required # Cambiado de @login_required a @admin_required
 def finance_summary(request):
-    # Esta es una versión simplificada que reutiliza la lógica anterior
     return transaction_list(request)
