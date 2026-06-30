@@ -1,0 +1,4 @@
+Org X — March Board Meeting Minutes (Demo Placeholder)
+
+This is placeholder content for demo/seed data. It stands in for a real
+meeting minutes document used to exercise the Documents module.

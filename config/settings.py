@@ -104,6 +104,7 @@ LOGIN_REDIRECT_URL = "core:home"
 LOGOUT_REDIRECT_URL = "core:home"
 LOGIN_URL = "members:login"
 
+
 # --- Internationalization ------------------------------------------------
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = env("TIME_ZONE", default="UTC")
@@ -152,3 +153,8 @@ if not DEBUG:
     CSRF_COOKIE_SECURE = True
     SECURE_HSTS_SECONDS = 3600
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+AUTHENTICATION_BACKENDS = [
+    "members.backends.EmailBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]

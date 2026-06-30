@@ -1,6 +1,5 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-
 from .models import User
 
 
@@ -21,6 +20,9 @@ class RegistrationForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
+        # Use the full email address as the username directly.
+        # Django's username validator permits @ and . so no transformation needed.
+        # Uniqueness is guaranteed by clean_email() above.
         user.username = self.cleaned_data["email"]
         user.role = User.Role.MEMBER
         if commit:
@@ -29,6 +31,8 @@ class RegistrationForm(UserCreationForm):
 
 
 class ProfileEditForm(forms.ModelForm):
+    email = forms.EmailField(required=True)
+
     class Meta:
         model = User
         fields = ("first_name", "last_name", "email", "phone")
@@ -50,5 +54,6 @@ class ProfileEditForm(forms.ModelForm):
 class EmailAuthenticationForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["username"].label = "Email"
-        self.fields["username"].widget.attrs.update({"placeholder": "your@email.com"})
+        self.fields["username"].label = "Email Address/ Username"
+        self.fields["username"].widget.attrs.update({
+            "placeholder": "Enter"})

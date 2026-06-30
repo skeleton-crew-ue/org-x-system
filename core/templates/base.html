@@ -79,9 +79,18 @@
 
         {# ── Left: module links (add here as apps ship) ── #}
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link" href="{% url 'documents:list' %}">Documents</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'core:home' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if '/documents' in request.path %}active{% endif %}"
+              href="{% url 'documents:list' %}">Documents</a>
+          </li>
           <li class="nav-item"><a class="nav-link" href="{% url 'voting:list' %}">Voting</a></li>    
           <li class="nav-item"><a class="nav-link" href="{% url 'meetings:list' %}">Meetings</a></li>
+          {% if user.is_authenticated %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'whatsapp:dashboard' %}">WhatsApp</a></li>
+          {% endif %}
           {% if user.is_authenticated and user.role == 'ADMIN' %}
             <li class="nav-item"><a class="nav-link" href="{% url 'finance:list' %}">Finance</a></li>
           {% endif %}
@@ -96,7 +105,7 @@
                 {{ user.get_full_name|default:user.username }}
                 {% if user.role %}
                   <span class="badge bg-light text-dark ms-1 fw-normal"
-                        style="font-size:.7em;">{{ user.role }}</span>
+                        style="font-size:.7em;">{{ user.get_role_display }}</span>
                 {% endif %}
               </a>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
@@ -155,7 +164,10 @@
   <footer class="container py-4 mt-5 text-muted border-top">
     <small>
       Org X System &middot; Student Project, Spring 2026 &middot;
-      <a href="https://github.com/org-x-system-team/org-x-system" class="text-muted">Source</a>
+      <a href="https://github.com/org-x-system-team/org-x-system"
+         class="text-muted"
+         target="_blank"
+         rel="noopener">Source</a>
     </small>
   </footer>
 
