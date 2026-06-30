@@ -6,6 +6,7 @@ from django.core.paginator import Paginator
 from django.http import FileResponse
 from django.contrib.postgres.search import SearchRank, SearchQuery
 from django.contrib import messages
+from django.db.models import F
 
 from .models import Document
 from .forms import DocumentUploadForm
@@ -24,7 +25,7 @@ def document_list(request):
         documents = (
             documents
             .filter(search_vector=query)
-            .annotate(rank=SearchRank("search_vector", query))
+            .annotate(rank=SearchRank(F("search_vector"), query))
             .order_by("-rank")
         )
 
