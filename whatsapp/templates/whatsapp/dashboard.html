@@ -61,12 +61,6 @@
     </div>
     <div class="col-md-6 mb-3">
       <div class="card p-3">
-        <h6 class="text-muted">Sentiment Breakdown</h6>
-        <canvas id="sentimentChart"></canvas>
-      </div>
-    </div>
-    <div class="col-12">
-      <div class="card p-3">
         <h6 class="text-muted">Daily Message Frequency</h6>
         <canvas id="dailyFrequencyChart"></canvas>
       </div>
@@ -93,16 +87,26 @@
     </tbody>
   </table>
 
-  {# ── Top influencers ──────────────────────────────────────────────── #}
-  <h4 class="mb-1">Top Influencers</h4>
-  <small class="text-muted">Ranked by how much conversation each person's messages spark, not raw message count.</small>
-  <ol class="list-group list-group-numbered mb-4 mt-2">
-    {% for name in results.top_influencers %}
-      <li class="list-group-item">{{ name }}</li>
-    {% empty %}
-      <li class="list-group-item text-muted">No data.</li>
-    {% endfor %}
-  </ol>
+  {# ── Top influencers + Sentiment breakdown ────────────────────────── #}
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <h4 class="mb-1">Top Influencers</h4>
+      <small class="text-muted">Ranked by how much conversation each person's messages spark, not raw message count.</small>
+      <ol class="list-group list-group-numbered mt-2">
+        {% for name in results.top_influencers %}
+          <li class="list-group-item">{{ name }}</li>
+        {% empty %}
+          <li class="list-group-item text-muted">No data.</li>
+        {% endfor %}
+      </ol>
+    </div>
+    <div class="col-md-6">
+      <div class="card p-3">
+        <h6 class="text-muted">Sentiment Breakdown</h6>
+        <canvas id="sentimentChart"></canvas>
+      </div>
+    </div>
+  </div>
 
   {# ── Spam flags ───────────────────────────────────────────────────── #}
   <h4 class="mb-3">Spam Flags</h4>

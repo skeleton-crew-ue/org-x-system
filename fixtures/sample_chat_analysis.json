@@ -1,15 +1,46 @@
 {
   "summary": {
-    "total_messages": 90,
-    "unique_senders": 6,
+    "total_messages": 87,
+    "unique_senders": 5,
     "media_message_count": 1,
     "date_range": {
       "first": "2026-03-15",
       "last": "2026-03-16"
     },
-    "text_message_count": 89
+    "text_message_count": 86
   },
-  "per_user": "              messages  media  avg_sentiment\nsender                                      \nJane Smith          24      1       0.080267\nJohn Doe            19      0       0.232389\nMike Brown          17      0       0.098971\nBob Wilson          15      0       0.167580\nSarah Connor        12      0       0.203358\nSystem               3      0       0.102067",
+  "per_user": [
+    {
+      "name": "Jane Smith",
+      "messages": 24,
+      "media": 1,
+      "avg_sentiment": 0.0803
+    },
+    {
+      "name": "John Doe",
+      "messages": 19,
+      "media": 0,
+      "avg_sentiment": 0.2324
+    },
+    {
+      "name": "Mike Brown",
+      "messages": 17,
+      "media": 0,
+      "avg_sentiment": 0.099
+    },
+    {
+      "name": "Bob Wilson",
+      "messages": 15,
+      "media": 0,
+      "avg_sentiment": 0.1676
+    },
+    {
+      "name": "Sarah Connor",
+      "messages": 12,
+      "media": 0,
+      "avg_sentiment": 0.2034
+    }
+  ],
   "peak_hours": [
     {
       "hour": 0,
@@ -69,11 +100,11 @@
     },
     {
       "hour": 14,
-      "count": 34
+      "count": 33
     },
     {
       "hour": 15,
-      "count": 26
+      "count": 24
     },
     {
       "hour": 16,
@@ -109,34 +140,38 @@
     }
   ],
   "frequency": {
-    "daily": "timestamp\n2026-03-15    60\n2026-03-16    30\nName: count, dtype: int64",
-    "weekly": "year_week\n2026-W11    60\n2026-W12    30\nName: count, dtype: int64"
+    "daily": [
+      {
+        "date": "2026-03-15",
+        "count": 57
+      },
+      {
+        "date": "2026-03-16",
+        "count": 30
+      }
+    ],
+    "weekly": [
+      {
+        "iso_week": "2026-W11",
+        "count": 57
+      },
+      {
+        "iso_week": "2026-W12",
+        "count": 30
+      }
+    ]
   },
   "sentiment": {
-    "positive": 0.3888888888888889,
-    "negative": 0.044444444444444446,
-    "neutral": 0.5666666666666667
+    "positive": 0.3793103448275862,
+    "neutral": 0.5747126436781609,
+    "negative": 0.04597701149425287
   },
   "top_influencers": [
     "Jane Smith",
-    "John Doe",
     "Mike Brown",
+    "John Doe",
     "Bob Wilson",
     "Sarah Connor"
   ],
-  "spam_flags": [
-    {
-      "sender": "Jane Smith",
-      "reason": "high_volume_burst",
-      "examples": [
-        19,
-        20,
-        23,
-        24,
-        25,
-        26,
-        31
-      ]
-    }
-  ]
+  "spam_flags": []
 }
