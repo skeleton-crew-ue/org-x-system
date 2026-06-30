@@ -2,30 +2,40 @@
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.http import FileResponse
-from django.contrib.postgres.search import SearchVector, SearchRank, SearchQuery
+from django.contrib.postgres.search import SearchRank, SearchQuery
 from django.contrib import messages
+from django.db.models import F
 
 from .models import Document
 from .forms import DocumentUploadForm
 from core.decorators import admin_required
+
+DOCUMENTS_PER_PAGE = 20
 
 
 @login_required
 def document_list(request):
     q = request.GET.get("q")
     documents = Document.objects.all()
+
     if q:
         query = SearchQuery(q)
         documents = (
-            Document.objects
-            .annotate(rank=SearchRank(SearchVector("title", "description"), query))
-            .filter(rank__gte=0.1)
+            documents
+            .filter(search_vector=query)
+            .annotate(rank=SearchRank(F("search_vector"), query))
             .order_by("-rank")
         )
+
+    paginator = Paginator(documents, DOCUMENTS_PER_PAGE)
+    page_obj = paginator.get_page(request.GET.get("page"))
+
     return render(request, "documents/list.html", {
-        "documents": documents,
-        "query": q
+        "documents": page_obj,
+        "page_obj": page_obj,
+        "query": q,
     })
 
 
