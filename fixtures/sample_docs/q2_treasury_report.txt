@@ -1,0 +1,4 @@
+Org X — Q2 Treasury Report (Demo Placeholder)
+
+This is placeholder content for demo/seed data. It stands in for a real
+quarterly treasury report document used to exercise the Documents module.
