@@ -118,3 +118,9 @@ whatsapp_exports/
 # Member data exports — never commit real member data
 member_exports/
 members_*.csv
+
+# Entorno local
+.env
+.venv
+db.sqlite3
+__pycache__/

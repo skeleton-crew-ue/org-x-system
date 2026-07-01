@@ -1,14 +1,9 @@
-# Org X System — Python dependencies (pinned).
-# Bump versions deliberately, in their own PR, not as a side effect.
-
-Django==5.2.*
-psycopg[binary]==3.2.*        # PostgreSQL driver (harmless on SQLite)
-django-environ==0.11.*        # reads settings from .env
-gunicorn==23.0.*              # production WSGI server (Render)
-whitenoise==6.7.*             # serves static files in production
-Pillow==10.4.*                # image handling for file uploads
-django-crispy-forms==2.3      # nicer Bootstrap form rendering
-crispy-bootstrap5==2024.10    # the Bootstrap 5 template pack
-pandas==2.2.*               # data migration + WhatsApp analytics
-vaderSentiment==3.3.*       # sentiment analysis
-python-dateutil==2.9.*      # WhatsApp export timestamp parsing
+Django>=5.2
+psycopg[binary]
+django-environ
+gunicorn
+whitenoise
+Pillow>=12.0.0
+django-crispy-forms
+crispy-bootstrap5
+pandas
