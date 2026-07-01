@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Server Error | Org X System{% endblock %}
+
+{% block content %}
+<div class="empty-state">
+    <h2 class="display-4 fw-bold text-danger">500</h2>
+    <h3>Server Error</h3>
+    <p class="text-muted">Something went wrong on our side. We are working to fix it.</p>
+    <a href="{% url 'core:home' %}" class="btn btn-primary mt-3">Return to Dashboard</a>
+</div>
+{% endblock %}

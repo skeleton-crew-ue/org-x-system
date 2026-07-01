@@ -1,9 +1,14 @@
-from django.shortcuts import render, get_object_or_404
+"""Views for the meetings module."""
+
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 
 from .models import Meeting
+from .forms import MeetingForm
+from core.decorators import admin_required
 
 
 @login_required
@@ -33,6 +38,25 @@ def meeting_detail(request, pk):
 
 
 @login_required
+@admin_required
+def meeting_add(request):
+    """Create a new meeting."""
+    if request.method == "POST":
+        form = MeetingForm(request.POST)
+        if form.is_valid():
+            meeting = form.save(commit=False)
+            meeting.created_by = request.user
+            meeting.save()
+            messages.success(request, "Meeting scheduled successfully.")
+            return redirect("meetings:list")
+        messages.error(request, "Please correct the errors in the form.")
+    else:
+        form = MeetingForm()
+    
+    return render(request, 'meetings/add.html', {'form': form})
+
+
+@login_required
 def meeting_ics(request, pk):
     """Generate and return an ICS calendar file for a meeting."""
     meeting = get_object_or_404(Meeting, pk=pk)
@@ -55,3 +79,4 @@ END:VCALENDAR"""
     response = HttpResponse(ics_content, content_type='text/calendar')
     response['Content-Disposition'] = f'attachment; filename="{meeting.title}.ics"'
     return response
+    

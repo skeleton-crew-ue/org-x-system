@@ -9,11 +9,13 @@ urlpatterns = [
     path("documents/", include("documents.urls")),
     path("accounts/", include("members.urls")),
     path("voting/", include("voting.urls")),
-    path("meetings/", include("meetings.urls")),  # <-- YA ACTIVADO
-    path("finance/", include("finance.urls")),    # <-- YA ACTIVADO
+    path("meetings/", include("meetings.urls")),
+    path("finance/", include("finance.urls")),
     path("whatsapp/", include("whatsapp.urls")),
 ]
 
+handler404 = 'core.views.custom_page_not_found'
+handler500 = 'core.views.custom_error_view'
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    

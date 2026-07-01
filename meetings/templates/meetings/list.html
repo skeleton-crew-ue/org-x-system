@@ -1,29 +1,74 @@
 {% extends 'base.html' %}
 
-{% block title %}Meetings - Org X System{% endblock %}
-
 {% block content %}
-  <h1 class="mb-4">Meetings</h1>
-  
-  <h2 class="h4">Upcoming Meetings</h2>
-  <ul class="list-group mb-4">
-    {% for meeting in upcoming %}
-      <li class="list-group-item">
-        <strong>{{ meeting.title }}</strong> - {{ meeting.scheduled_at }}
-      </li>
-    {% empty %}
-      <li class="list-group-item text-muted">No upcoming meetings scheduled.</li>
-    {% endfor %}
-  </ul>
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Meetings</h2>
+        <a href="{% url 'meetings:add' %}" class="btn btn-primary">
+            Add New Meeting
+        </a>
+    </div>
 
-  <h2 class="h4">Past Meetings</h2>
-  <ul class="list-group">
-    {% for meeting in past %}
-      <li class="list-group-item">
-        {{ meeting.title }} - {{ meeting.scheduled_at }}
-      </li>
-    {% empty %}
-      <li class="list-group-item text-muted">No past meetings recorded.</li>
-    {% endfor %}
-  </ul>
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body p-4">
+            <h4 class="mb-3 text-primary">Upcoming Meetings</h4>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Title</th>
+                            <th>Date & Time</th>
+                            <th>Location/Link</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for meeting in upcoming %}
+                        <tr>
+                            <td>{{ meeting.title }}</td>
+                            <td>{{ meeting.scheduled_at|date:"M d, Y - H:i" }}</td>
+                            <td>{{ meeting.location_or_link|truncatechars:30 }}</td>
+                            <td class="text-end">
+                                <a href="{% url 'meetings:detail' meeting.pk %}" class="btn btn-sm btn-outline-secondary">View</a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="4" class="text-muted text-center">No upcoming meetings.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+            <h4 class="mb-3 text-secondary">Past Meetings</h4>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Title</th>
+                            <th>Date</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for meeting in past %}
+                        <tr>
+                            <td>{{ meeting.title }}</td>
+                            <td>{{ meeting.scheduled_at|date:"M d, Y" }}</td>
+                            <td class="text-end">
+                                <a href="{% url 'meetings:detail' meeting.pk %}" class="btn btn-sm btn-outline-secondary">View</a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="3" class="text-muted text-center">No past meetings recorded.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
