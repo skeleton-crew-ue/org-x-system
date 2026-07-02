@@ -1,5 +1,3 @@
-# documents/forms.py
-
 from django import forms
 from .models import Document
 
@@ -11,5 +9,4 @@ class DocumentUploadForm(forms.ModelForm):
             "title",
             "description",
             "file",
-            "tags",
         ]
