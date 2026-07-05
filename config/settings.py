@@ -154,8 +154,6 @@ elif DEBUG:
 else:
     # Production — full TLS verification.
     EMAIL_SSL_CONTEXT = ssl.create_default_context(cafile=certifi.where())
-    EMAIL_SSL_CONTEXT.check_hostname = False
-    EMAIL_SSL_CONTEXT.verify_mode = ssl.CERT_NONE
 
 # --- Production hardening -------------------------------------------------
 # Active only when DEBUG=False. Mr H verifies these don't cause redirect
