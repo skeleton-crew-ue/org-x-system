@@ -1,9 +1,9 @@
-import time
 import logging
+import threading
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mail
+from django.core.mail import get_connection, EmailMessage
 from django.shortcuts import redirect, render
 from django.conf import settings
 
@@ -28,6 +28,55 @@ def _resolve_recipients(recipient_filter):
     return qs
 
 
+def _send_broadcast_emails(broadcast_id, email_list, subject, body, from_email):
+    """
+    Send broadcast emails in a background thread using a single shared
+    SMTP connection. Updates Broadcast.recipient_count when done.
+
+    Running this in a daemon thread means the HTTP response is returned
+    immediately — the admin is not blocked waiting for thousands of sends.
+    """
+    sent = 0
+    errors = 0
+
+    try:
+        connection = get_connection()
+        connection.open()
+
+        messages_to_send = [
+            EmailMessage(
+                subject=subject,
+                body=body,
+                from_email=from_email,
+                to=[email],
+                connection=connection,
+            )
+            for email in email_list
+        ]
+
+        for msg in messages_to_send:
+            try:
+                msg.send()
+                sent += 1
+            except Exception as e:
+                errors += 1
+                logger.warning(f"Broadcast {broadcast_id}: failed to send to {msg.to}: {e}")
+
+        connection.close()
+
+    except Exception as e:
+        logger.error(f"Broadcast {broadcast_id}: could not open SMTP connection: {e}")
+
+    # Update the saved broadcast with the final sent count
+    try:
+        broadcast = Broadcast.objects.get(pk=broadcast_id)
+        broadcast.recipient_count = sent
+        broadcast.save(update_fields=["recipient_count"])
+        logger.info(f"Broadcast {broadcast_id}: sent={sent}, errors={errors}")
+    except Exception as e:
+        logger.error(f"Broadcast {broadcast_id}: could not update recipient_count: {e}")
+
+
 @login_required
 @admin_required
 def broadcast_compose(request):
@@ -38,43 +87,36 @@ def broadcast_compose(request):
         broadcast = form.save(commit=False)
         broadcast.sent_by = request.user
 
-        recipients = _resolve_recipients(broadcast.recipient_filter)
-        email_list = list(recipients.values_list("email", flat=True))
+        recipients  = _resolve_recipients(broadcast.recipient_filter)
+        email_list  = list(recipients.values_list("email", flat=True))
 
-        sent = 0
-        errors = 0
-
-        for email in email_list:
-            try:
-                send_mail(
-                    subject=broadcast.subject,
-                    message=broadcast.body,
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=[email],
-                    fail_silently=False,
-                )
-                sent += 1
-                # Small delay to stay within Mailtrap's free-plan rate limit.
-                # Remove or reduce this in production with a real SMTP provider.
-                time.sleep(0.5)
-            except Exception as e:
-                errors += 1
-                logger.warning(f"Failed to send broadcast to {email}: {e}")
-
-        broadcast.recipient_count = sent
+        # Save the broadcast row immediately so we have a PK for the
+        # background thread to update. recipient_count starts at 0 and
+        # is updated once sending is complete.
+        broadcast.recipient_count = 0
         broadcast.save()
 
-        if errors:
-            messages.warning(
-                request,
-                f"Broadcast sent to {sent} recipient{'s' if sent != 1 else ''}. "
-                f"{errors} failed — check server logs."
-            )
-        else:
-            messages.success(
-                request,
-                f"Broadcast sent to {sent} recipient{'s' if sent != 1 else ''}."
-            )
+        # Fire off sending in a background thread so the request returns
+        # immediately — avoids gunicorn's 30-second worker timeout.
+        thread = threading.Thread(
+            target=_send_broadcast_emails,
+            args=(
+                broadcast.pk,
+                email_list,
+                broadcast.subject,
+                broadcast.body,
+                settings.DEFAULT_FROM_EMAIL,
+            ),
+            daemon=True,
+        )
+        thread.start()
+
+        messages.success(
+            request,
+            f"Broadcast queued for {len(email_list)} recipient"
+            f"{'s' if len(email_list) != 1 else ''}. "
+            f"Emails are being sent in the background."
+        )
         return redirect("notifications:history")
 
     return render(request, "notifications/compose.html", {"form": form})
