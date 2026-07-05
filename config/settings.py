@@ -135,20 +135,25 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # --- Email ---------------------------------------------------------------
-# Local dev: point at Mailtrap (fake SMTP). Production: Gmail SMTP.
-EMAIL_HOST = env("EMAIL_HOST", default="")
-EMAIL_PORT = env.int("EMAIL_PORT", default=587)
-EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="")
+EMAIL_HOST          = env("EMAIL_HOST", default="")
+EMAIL_PORT          = env.int("EMAIL_PORT", default=587)
+EMAIL_HOST_USER     = env("EMAIL_HOST_USER", default="")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="")
-EMAIL_USE_TLS = EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=True)
-EMAIL_SSL_CONTEXT = ssl.create_default_context(cafile=certifi.where())
-EMAIL_USE_SSL = False
-DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="webmaster@localhost")
+EMAIL_USE_TLS       = env.bool("EMAIL_USE_TLS", default=True)
+EMAIL_USE_SSL       = False
+DEFAULT_FROM_EMAIL  = env("DEFAULT_FROM_EMAIL", default="webmaster@localhost")
+
 if not EMAIL_HOST:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-else:
-    import ssl
+elif DEBUG:
+    # Local dev with Mailtrap — relaxed SSL for macOS cert issues.
+    # Never applied in production (DEBUG=False on Render).
     EMAIL_SSL_CONTEXT = ssl.create_default_context()
+    EMAIL_SSL_CONTEXT.check_hostname = False
+    EMAIL_SSL_CONTEXT.verify_mode = ssl.CERT_NONE
+else:
+    # Production — full TLS verification.
+    EMAIL_SSL_CONTEXT = ssl.create_default_context(cafile=certifi.where())
     EMAIL_SSL_CONTEXT.check_hostname = False
     EMAIL_SSL_CONTEXT.verify_mode = ssl.CERT_NONE
 
@@ -167,7 +172,3 @@ AUTHENTICATION_BACKENDS = [
     "members.backends.EmailBackend",
     "django.contrib.auth.backends.ModelBackend",
 ]
-# for Mac SSL certificate verification with Mailtrap (dev only)
-if DEBUG:
-    import ssl
-    ssl._create_default_https_context = ssl._create_unverified_context
