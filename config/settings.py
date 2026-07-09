@@ -11,6 +11,8 @@ See docs/Architecture.md §8 for the full settings rationale.
 from pathlib import Path
 
 import environ
+import ssl
+import certifi
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -46,6 +48,7 @@ INSTALLED_APPS = [
     "meetings",
     "finance",
     "whatsapp",
+    "notifications",
 ]
 
 MIDDLEWARE = [
@@ -132,16 +135,25 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # --- Email ---------------------------------------------------------------
-# Local dev: point at Mailtrap (fake SMTP). Production: Gmail SMTP.
-EMAIL_HOST = env("EMAIL_HOST", default="")
-EMAIL_PORT = env.int("EMAIL_PORT", default=587)
-EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="")
+EMAIL_HOST          = env("EMAIL_HOST", default="")
+EMAIL_PORT          = env.int("EMAIL_PORT", default=587)
+EMAIL_HOST_USER     = env("EMAIL_HOST_USER", default="")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="")
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="webmaster@localhost")
+EMAIL_USE_TLS       = env.bool("EMAIL_USE_TLS", default=True)
+EMAIL_USE_SSL       = False
+DEFAULT_FROM_EMAIL  = env("DEFAULT_FROM_EMAIL", default="webmaster@localhost")
+
 if not EMAIL_HOST:
-    # No SMTP configured (e.g. fresh checkout) — print emails to the console.
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+elif DEBUG:
+    # Local dev with Mailtrap — relaxed SSL for macOS cert issues.
+    # Never applied in production (DEBUG=False on Render).
+    EMAIL_SSL_CONTEXT = ssl.create_default_context()
+    EMAIL_SSL_CONTEXT.check_hostname = False
+    EMAIL_SSL_CONTEXT.verify_mode = ssl.CERT_NONE
+else:
+    # Production — full TLS verification.
+    EMAIL_SSL_CONTEXT = ssl.create_default_context(cafile=certifi.where())
 
 # --- Production hardening -------------------------------------------------
 # Active only when DEBUG=False. Mr H verifies these don't cause redirect

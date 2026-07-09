@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Send Broadcast – Org X System{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h2 class="mb-0">Send Broadcast</h2>
+    <small class="text-muted">Compose and send an email to a group of members</small>
+  </div>
+  <a href="{% url 'notifications:history' %}" class="btn btn-outline-secondary btn-sm">
+    View History
+  </a>
+</div>
+
+<div class="card shadow-sm" style="max-width: 760px;">
+  <div class="card-body p-4">
+    <form method="post">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+          {% for error in form.non_field_errors %}
+            <div>{{ error }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {# Recipients #}
+      <div class="mb-3">
+        <label for="{{ form.recipient_filter.id_for_label }}" class="form-label fw-semibold">
+          Recipients <span class="text-danger">*</span>
+        </label>
+        {{ form.recipient_filter }}
+        <div class="form-text">
+          <strong>All Members</strong> — everyone in the system &nbsp;·&nbsp;
+          <strong>Active Members</strong> — only active accounts &nbsp;·&nbsp;
+          <strong>Admins Only</strong> — admin accounts only
+        </div>
+        {% for error in form.recipient_filter.errors %}
+          <div class="text-danger small mt-1">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      {# Subject #}
+      <div class="mb-3">
+        <label for="{{ form.subject.id_for_label }}" class="form-label fw-semibold">
+          Subject <span class="text-danger">*</span>
+        </label>
+        {{ form.subject }}
+        {% for error in form.subject.errors %}
+          <div class="text-danger small mt-1">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      {# Body #}
+      <div class="mb-4">
+        <label for="{{ form.body.id_for_label }}" class="form-label fw-semibold">
+          Message <span class="text-danger">*</span>
+        </label>
+        {{ form.body }}
+        {% for error in form.body.errors %}
+          <div class="text-danger small mt-1">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="d-flex gap-2 align-items-center">
+        <button type="submit" class="btn btn-primary px-4">
+          Send Broadcast
+        </button>
+        <a href="{% url 'notifications:history' %}" class="btn btn-outline-secondary">
+          Cancel
+        </a>
+        <small class="text-muted ms-2">This will send immediately to all matched recipients.</small>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+{% endblock %}

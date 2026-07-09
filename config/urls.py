@@ -12,6 +12,7 @@ urlpatterns = [
     path("meetings/", include("meetings.urls")),  # <-- YA ACTIVADO
     path("finance/", include("finance.urls")),    # <-- YA ACTIVADO
     path("whatsapp/", include("whatsapp.urls")),
+    path("notifications/", include("notifications.urls")),
 ]
 
 if settings.DEBUG:

@@ -92,7 +92,12 @@
             <li class="nav-item"><a class="nav-link" href="{% url 'whatsapp:dashboard' %}">WhatsApp</a></li>
           {% endif %}
           {% if user.is_authenticated and user.role == 'ADMIN' %}
-            <li class="nav-item"><a class="nav-link" href="{% url 'finance:list' %}">Finance</a></li>
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'finance:list' %}">Finance</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'notifications:compose' %}">Broadcasts</a>
+              </li>
           {% endif %}
         </ul>
 
