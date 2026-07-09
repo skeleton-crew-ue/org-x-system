@@ -1,10 +1,12 @@
 from collections import defaultdict
 from decimal import Decimal
 
+from django.contrib import messages
 from django.db.models import Sum
 from django.db.models.functions import Coalesce
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from core.decorators import admin_required
+from .forms import TransactionForm
 from .models import Transaction
 
 @admin_required
@@ -45,5 +47,14 @@ def finance_summary(request):
 
 @admin_required
 def transaction_add(request):
-    return render(request, 'finance/add.html')
-    
+    if request.method == 'POST':
+        form = TransactionForm(request.POST)
+        if form.is_valid():
+            transaction = form.save(commit=False)
+            transaction.recorded_by = request.user
+            transaction.save()
+            messages.success(request, 'Transaction added.')
+            return redirect('finance:list')
+    else:
+        form = TransactionForm()
+    return render(request, 'finance/add.html', {'form': form})
