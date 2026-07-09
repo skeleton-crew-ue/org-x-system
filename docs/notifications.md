@@ -18,8 +18,8 @@ The `notifications` app provides two features:
 
 | URL | View | Who can access |
 |---|---|---|
-| `/notifications/broadcast/` | Compose page | Admins only |
-| `/notifications/broadcast/history/` | History page | Admins only |
+| `/notifications/compose/` | Compose page | Admins only |
+| `/notifications/history/` | History page | Admins only |
 
 Members attempting to access either page are redirected with a 403.
 
@@ -118,11 +118,11 @@ If `EMAIL_HOST` is not set, Django falls back to
 
 **Broadcasts**
 1. Log in as an admin.
-2. Go to `/notifications/broadcast/`.
+2. Go to `/notifications/compose/`.
 3. Select a recipient filter, fill in subject and body, click Send.
 4. Check Mailtrap inbox for the emails.
-5. Go to `/notifications/broadcast/history/` — the broadcast should appear.
-6. Log in as a regular member and attempt to visit `/notifications/broadcast/` — should be blocked.
+5. Go to `/notifications/history/` — the broadcast should appear.
+6. Log in as a regular member and attempt to visit `/notifications/compose/` — should be blocked.
 
 **Meeting reminders**
 1. Create a `Meeting` in Django admin with `status=SCHEDULED` and

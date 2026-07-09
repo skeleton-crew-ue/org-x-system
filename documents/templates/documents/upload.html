@@ -70,17 +70,17 @@
 
       {# Tags — plain text input, resolved to Tag objects in the view #}
       <div class="mb-4">
-        <label for="{{ form.tags_input.id_for_label }}" class="form-label fw-semibold">
+        <label for="{{ form.tags.id_for_label }}" class="form-label fw-semibold">
           Tags
         </label>
         <input type="text"
-               name="{{ form.tags_input.html_name }}"
-               id="{{ form.tags_input.id_for_label }}"
-               value="{{ form.tags_input.value|default:'' }}"
-               class="form-control {% if form.tags_input.errors %}is-invalid{% endif %}"
+               name="{{ form.tags.html_name }}"
+               id="{{ form.tags.id_for_label }}"
+               value="{{ form.tags.value|default:'' }}"
+               class="form-control {% if form.tags.errors %}is-invalid{% endif %}"
                placeholder="e.g. finance, 2024, report">
         <div class="form-text">Separate tags with commas.</div>
-        {% for error in form.tags_input.errors %}
+        {% for error in form.tags.errors %}
           <div class="invalid-feedback">{{ error }}</div>
         {% endfor %}
       </div>
