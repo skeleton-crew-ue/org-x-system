@@ -6,7 +6,10 @@
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="mb-0">Financial Transactions</h1>
     {% if user.is_authenticated and user.role == 'ADMIN' %}
-      <a href="{% url 'finance:add' %}" class="btn btn-primary">Add Transaction</a>
+      <div class="d-flex gap-2">
+        <a href="{% url 'finance:summary' %}" class="btn btn-outline-secondary">Summary</a>
+        <a href="{% url 'finance:add' %}" class="btn btn-primary">Add Transaction</a>
+      </div>
     {% endif %}
   </div>
 
