@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Finance Summary - Org X System{% endblock %}
+
+{% block content %}
+  <h1 class="mb-4">Finance Summary</h1>
+
+  <div class="row text-center mb-4">
+    <div class="col">
+      <div class="card p-3">
+        <div class="fs-4">{{ income_total }}</div>
+        <small class="text-muted">Total Income</small>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card p-3">
+        <div class="fs-4">{{ expense_total }}</div>
+        <small class="text-muted">Total Expense</small>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card p-3">
+        <div class="fs-4">{{ net_balance }}</div>
+        <small class="text-muted">Net Balance</small>
+      </div>
+    </div>
+  </div>
+
+  {{ chart_labels|json_script:"chart-labels-data" }}
+  {{ chart_income|json_script:"chart-income-data" }}
+  {{ chart_expense|json_script:"chart-expense-data" }}
+
+  <div class="card p-3">
+    <h6 class="text-muted">Income vs. Expense by Category</h6>
+    <canvas id="categoryChart"></canvas>
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script>
+  const chartLabels = JSON.parse(document.getElementById("chart-labels-data").textContent);
+  const chartIncome = JSON.parse(document.getElementById("chart-income-data").textContent);
+  const chartExpense = JSON.parse(document.getElementById("chart-expense-data").textContent);
+  new Chart(document.getElementById("categoryChart"), {
+    type: "bar",
+    data: {
+      labels: chartLabels,
+      datasets: [
+        { label: "Income", data: chartIncome, backgroundColor: "#0d9488" },
+        { label: "Expense", data: chartExpense, backgroundColor: "#dc2626" },
+      ],
+    },
+  });
+</script>
+{% endblock %}
