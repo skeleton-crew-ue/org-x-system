@@ -1,3 +1,5 @@
+from django.apps import apps as global_apps
+from django.contrib.auth.management import create_permissions
 from django.db import migrations
 
 # (app_label, model_name) for every org content model an "Org Admin" should
@@ -22,6 +24,17 @@ GROUP_NAME = "Org Admins"
 
 
 def create_group(apps, schema_editor):
+    # On a fresh `migrate`, ContentType/Permission rows for these apps don't
+    # exist yet — Django creates them in the post_migrate signal that fires
+    # after every migration (including this one) has run. Force creation now
+    # instead of racing it, or this silently ships an empty group.
+    for app_label in {app_label for app_label, _ in CONTENT_MODELS}:
+        create_permissions(
+            global_apps.get_app_config(app_label),
+            verbosity=0,
+            using=schema_editor.connection.alias,
+        )
+
     Group = apps.get_model("auth", "Group")
     Permission = apps.get_model("auth", "Permission")
     ContentType = apps.get_model("contenttypes", "ContentType")
@@ -31,17 +44,16 @@ def create_group(apps, schema_editor):
 
     permissions = []
     for app_label, model_name in CONTENT_MODELS:
-        try:
-            ct = ContentType.objects.get(app_label=app_label, model=model_name)
-        except ContentType.DoesNotExist:
-            continue
+        ct = ContentType.objects.get(app_label=app_label, model=model_name)
         permissions += list(
             Permission.objects.filter(content_type=ct,
                                        codename__regex=r"^(add|change|delete|view)_")
         )
     group.permissions.set(permissions)
 
-    for user in User.objects.filter(role="ADMIN"):
+    admins = User.objects.filter(role="ADMIN")
+    admins.update(is_staff=True)
+    for user in admins:
         user.groups.add(group)
 
 
@@ -60,6 +72,8 @@ class Migration(migrations.Migration):
         ("documents", "0001_initial"),
         ("whatsapp", "0001_initial"),
         ("notifications", "0001_initial"),
+        ("contenttypes", "__first__"),
+        ("auth", "__first__"),
     ]
 
     operations = [
