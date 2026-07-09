@@ -12,41 +12,49 @@ This document is the team's shared mental model of how the system fits together.
 
 A single Django application — one repo, one process, one Postgres database — that members and admins access through a web browser. There is no SPA, no separate API service, no microservices, no message broker. Every page is server-rendered HTML produced by a Django view, styled with Bootstrap, occasionally enhanced with Chart.js for visualizations.
 
-```
-                 ┌──────────────────────────────────────────────────────┐
-                 │                    Browser                           │
-                 │         (Bootstrap 5 + Chart.js, server-rendered)    │
-                 └────────────────────────┬─────────────────────────────┘
-                                          │ HTTPS
-                 ┌────────────────────────▼─────────────────────────────┐
-                 │   Render Web Service: Gunicorn → Django app          │
-                 │   ┌────────────────────────────────────────────────┐ │
-                 │   │  Django Apps                                   │ │
-                 │   │  ┌──────────┐  ┌──────────┐  ┌──────────┐      │ │
-                 │   │  │ members  │  │documents │  │ voting   │      │ │
-                 │   │  ├──────────┤  ├──────────┤  ├──────────┤      │ │
-                 │   │  │ meetings │  │ finance  │  │ whatsapp │      │ │
-                 │   │  └──────────┘  └──────────┘  └──────────┘      │ │
-                 │   │              ┌──────────┐                       │ │
-                 │   │              │   core   │ (base templates,      │ │
-                 │   │              └──────────┘  shared utils, home)  │ │
-                 │   └────────────────────────────────────────────────┘ │
-                 │   Django Admin (/admin/) ← all admin-facing CRUD     │
-                 │   WhiteNoise (static files)                          │
-                 └────┬──────────────────────┬──────────────────────────┘
-                      │                      │
-                      │                      │
-              ┌───────▼─────────┐    ┌───────▼─────────┐
-              │ Render Postgres │    │   Render Disk   │
-              │  (managed)      │    │ (media uploads) │
-              └─────────────────┘    └─────────────────┘
-                                            │
-              ┌─────────────────────────────┴────────────────────────┐
-              │ External:                                            │
-              │   - Gmail SMTP (outbound email broadcasts)           │
-              │   - WhatsApp .txt exports (file uploads, ingest only)│
-              │   - Render Cron (daily reminder job)                 │
-              └──────────────────────────────────────────────────────┘
+```mermaid
+flowchart TB
+    Browser["🌐 Browser<br/>Bootstrap 5 + Chart.js — server-rendered HTML"]
+
+    subgraph Web["Render Web Service · Gunicorn → Django"]
+        direction TB
+        subgraph Apps["Django apps"]
+            direction LR
+            members
+            documents
+            voting
+            meetings
+            finance
+            whatsapp
+            core["core<br/>base templates · shared utils · home"]
+        end
+        Admin["Django Admin · /admin/<br/>all admin-facing CRUD"]
+        Static["WhiteNoise<br/>static files"]
+    end
+
+    DB[("Render Postgres<br/>managed")]
+    Disk[("Render Disk<br/>media uploads")]
+
+    subgraph Ext["External"]
+        direction LR
+        Gmail["Gmail SMTP<br/>outbound email broadcasts"]
+        WA["WhatsApp .txt exports<br/>file uploads, ingest only"]
+        Cron["Render Cron<br/>daily reminder job"]
+    end
+
+    Browser -->|HTTPS| Web
+    Web --> DB
+    Web --> Disk
+    Web -->|send_mass_mail| Gmail
+    Web -.->|chat exports| WA
+    Web -.->|send_event_reminders| Cron
+
+    classDef client fill:#e3f2fd,stroke:#1565c0,color:#0d1b2a;
+    classDef data fill:#e8f5e9,stroke:#2e7d32,color:#0d1b2a;
+    classDef ext fill:#fff3e0,stroke:#ef6c00,color:#0d1b2a;
+    class Browser client;
+    class DB,Disk data;
+    class Gmail,WA,Cron ext;
 ```
 
 ---
